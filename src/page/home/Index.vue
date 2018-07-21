@@ -2,11 +2,15 @@
   <div class="index">
     <div class="time">
       <div>
-        当前系统时间：{{now}}
+        <span>当前系统时间：</span>
+        <span class="is-time">{{now}}</span>
       </div>
     </div>
-    <div class="info">
-        上一期开奖：32145  下一期开奖时间：2018-07-12 10:20:00
+    <div class="lotte-time">
+        <span>上一期开奖：</span>
+        <span class="lot-num">33333</span>
+        <span>下一期开奖时间：</span>
+        <span class="is-time">{{now}}</span>
     </div>
     <div class="main">
       <Main-panel/>
@@ -21,16 +25,7 @@
           <tbody>
             <tr>
               <th>下注分值</th>
-              <th>1</th>
-              <th>2</th>
-              <th>3</th>
-              <th>4</th>
-              <th>5</th>
-              <th>6</th>
-              <th>7</th>
-              <th>8</th>
-              <th>9</th>
-              <th>10</th>
+              <th v-for="item in defaultNum">{{item}}</th>
             </tr>
             <tr>
               <td>下注金额</td>
@@ -54,11 +49,13 @@
 
 <script>
 import MainPanel from '@/components/common/MainPanel'
+import {defaultNum} from '@/config/panelConfig';
 export default {
   name: 'index',
   data() {
     return {
-      now: Date
+      now: Date,
+      defaultNum: defaultNum
     };
   },
   mounted () {
@@ -79,6 +76,12 @@ export default {
     .time {
       font-size: 18px;
       margin: 20px 0;
+    }
+    .lotte-time{
+      .lot-num{
+        color: red;
+        margin-right: 30px;
+      }
     }
     .main {
       margin-top: 60px;

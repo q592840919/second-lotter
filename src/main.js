@@ -9,10 +9,10 @@ Vue.config.productionTip = false;
 Vue.prototype.getFormatDate = (date, type) => {
   let o = {
     'year': date.getFullYear(),
-    'month': date.getMonth() + 1,
+    'month': (date.getMonth() + 1).toString() ? (date.getMonth() + 1).toString() : date.getMonth() + 1,
     'day': date.getDate(),
     'hours': date.getHours(),
-    'min': date.getMinutes(),
+    'min': date.getMinutes().toString().length === 1 ? 0 + date.getMinutes().toString() : date.getMinutes(),
     'second': date.getSeconds().toString().length === 1 ? 0 + date.getSeconds().toString() : date.getSeconds()
   };
   switch (type){
