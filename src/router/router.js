@@ -20,7 +20,7 @@ export default new Router({
     },
     {
       path: '/subplate',
-      component: History
+      component: Subplate
     },
     {
       path: '/detail/:id',
@@ -28,7 +28,7 @@ export default new Router({
     },
     {
       path: '/history',
-      component: Subplate
+      component: History
     }
   ]
 });

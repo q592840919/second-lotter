@@ -1,118 +1,82 @@
 <template>
-  <div class="market">
-    <div class="title">
-      商店
+  <div class="detail">
+    <div class="date">
+      <span class="now-date">当前查看日期：</span>
+      <span class="date">{{now}}</span>
+      <span class="now-num">当前查看数字：</span>
+      <span class=""></span>
+      <span class="other">其他可查看数字：</span>
+      <span class=""></span>
     </div>
-    <div class="first">
-      <a>
-        <span class="add-icon">+</span>
-        <span class="add-word">批量添加</span>
-      </a>
+    <div class="num">
+      <p>副板列表</p>
+      <div class="list">
+        <span>1</span>
+        <span>1</span>
+        <span>1</span>
+        <span>1</span>
+        <span>1</span>
+        <span>1</span>
+        <span>1</span>
+      </div>
     </div>
-    <div class="second">
-      <ul>
-        <li>
-          <div class="picture">
-          </div>
-          <div class="info">
-            <div class="name">华润万家</div>
-            <div class="adress">苏果路57号</div>
-          </div>
-        </li>
-        <li>
-          <div class="picture">
-          </div>
-          <div class="info">
-            <div class="name">华润万家</div>
-            <div class="adress">苏果路57号</div>
-          </div>
-        </li>
-      </ul>
+    <div class="panel">
+      <Main-panel/>
     </div>
   </div>
 </template>
 
 <script>
+import MainPanel from '@/components/common/MainPanel'
 export default {
-  name: 'market',
+  name: 'detail',
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      now: Date
     };
+  },
+  mounted () {
+    const vm = this;
+    vm.now = vm.getFormatDate(new Date(), 1);
+  },
+  components: {
+    MainPanel
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
-.market {
-  border: 1px solid #dcdcdc;
-  border-right: 0;
-  .title {
-    text-align: center;
-    border-bottom: 1px solid #dcdcdc;
-    padding: 10px 0;
-    color: #666666;
-    font-size: 18px;
+.detail {
+  width: 1200px;
+  margin: auto;
+  .date{
+    margin-top: 30px;
+    .now-date{
+
+    }
   }
-  .first {
-    margin-top: 10px;
-    display: block;
-    height: 32px;
+  .num{
     padding-bottom: 20px;
-    border-bottom: 1px solid #dcdcdc;
-    a {
-      width: 104px;
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
-      cursor: pointer;
-      color: #fff;
-      float: right;
-      margin-right: 10px;
-      border: 1px solid #009ddc;
-      background: #009ddc;
-      border-radius: 5px;
-      .add-icon {
-        font-size: 30px;
-      }
-      .add-word {
-        font-size: 14px;
-      }
-      span {
+    border-bottom: 1px dashed #DCDCDC;
+    .list{
+    font-size: 0;
+      &>span{
+        font-size: 16px;
+        border: 1px solid #ABABAB;
+        border-right: 0;
+        padding: 5px 10px;
         display: inline-block;
-        vertical-align: middle;
+        text-align: center;
+        cursor: pointer;
+        &:last-child{
+          border-right: 1px solid #ABABAB;
+        }
       }
     }
   }
-  .second {
-    ul {
-      li {
-        display: flex;
-        margin: 10px 20px;
-        border-bottom: 1px dashed #dcdcdc;
-        align-items: center;
-        font-size: 15px;
-        color: #ababab;
-        cursor: pointer;
-        &:last-child {
-          border-bottom: none;
-        }
-        &:hover {
-          color: #ff9800;
-        }
-        .picture {
-          flex: 1;
-          img {
-            width: 100px;
-            height: 70px;
-          }
-        }
-        .info {
-          flex: 1;
-        }
-      }
-    }
+  .panel{
+    margin-top: 30px;
   }
 }
 </style>

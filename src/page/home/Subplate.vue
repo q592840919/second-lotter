@@ -1,40 +1,57 @@
 <template>
-  <div class="market">
-    <div class="title">
-      商店
+  <div class="subplate">
+    <div class="init">
+      <span class="">需要生成的副板数：</span><input/>
     </div>
-    <div class="first">
-      <a>
-        <span class="add-icon">+</span>
-        <span class="add-word">批量添加</span>
-      </a>
-    </div>
-    <div class="second">
-      <ul>
-        <li>
-          <div class="picture">
+    <div class="content">
+      <div class="left">
+        <div class="oprat">
+          <button>生成副板</button>
+        </div>
+        <div class="info">
+          <div class="list">
+            <span>1</span><input/>
           </div>
-          <div class="info">
-            <div class="name">华润万家</div>
-            <div class="adress">苏果路57号</div>
-          </div>
-        </li>
-        <li>
-          <div class="picture">
-            </div>
-          <div class="info">
-            <div class="name">华润万家</div>
-            <div class="adress">苏果路57号</div>
-          </div>
-        </li>
-      </ul>
+        </div>
+      </div>
+      <div class="right">
+        <div class="title">副板分值</div>
+        <table class="vice"  cellpadding="0" cellspacing="0">
+          <tbody>
+            <tr>
+              <th>1</th>
+              <th>2</th>
+              <th>3</th>
+              <th>4</th>
+              <th>5</th>
+              <th>6</th>
+              <th>7</th>
+              <th>8</th>
+              <th>9</th>
+              <th>10</th>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'market',
+  name: 'subplate',
   data() {
     return {
       msg: 'Welcome to Your Vue.js App'
@@ -45,71 +62,53 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
-  .market {
-    border: 1px solid #DCDCDC;
-    border-right: 0;
-    .title{
-      text-align: center;
-      border-bottom: 1px solid #DCDCDC;
-      padding: 10px 0;
-      color: #666666;
-      font-size: 18px;
+  .subplate {
+    width: 1000px;
+    margin: auto;
+    .init{
+      margin-top: 30px;
     }
-    .first{
-      margin-top: 10px;
-      display: block;
-      height: 32px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #DCDCDC;
-      a{
-        width: 104px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        cursor: pointer;
-        color: #fff;
-        float: right;
-        margin-right: 10px;
-        border: 1px solid #009ddc;
-        background: #009ddc;
-        border-radius: 5px;
-        .add-icon{
-          font-size: 30px;
-        }
-        .add-word{
-          font-size: 14px;
-        }
-        span{
-          display: inline-block;
-          vertical-align: middle;
-        }
-      }
-    }
-    .second{
-      ul{
-        li{
-          display: flex;
-          margin: 10px 20px;
-          border-bottom: 1px dashed #dcdcdc;
-          align-items: center;
-          font-size: 15px;
-          color: #ABABAB;
-          cursor: pointer;
-          &:last-child{
-            border-bottom: none;
-          }
-          &:hover{
-            color: #FF9800;
-          }
-          .picture{
-            flex: 1;
-            img{
-              width: 100px;
-              height: 70px;
+    .content{
+      margin-top: 30px;
+      .left{
+        display: inline-block;
+        width: 215px;
+        margin-right: 50px;
+        vertical-align: middle;
+        .info{
+          margin-top: 30px;
+          padding-top: 20px;
+          border-top: 1px dashed #CCCCCC;
+          .list{
+            span{
+              border: 1px solid #BCBCBC;
+              border-right: 0;
+              line-height: 27px;
+              display: inline-block;
+              vertical-align: middle;
+              text-align: center;
+              padding: 0 10px;
+              background-color: #d7f2ff;
+            }
+            input{
+              border-radius: 0;
             }
           }
-          .info{
-            flex: 1;
+        }
+      }
+      .right{
+        display: inline-block;
+        vertical-align: -38px;
+        padding-top: 20px;
+        border-top: 1px dashed #CCCCCC;
+        .title{
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .vice{
+          width: 600px;
+          th{
+            width: 35px;
           }
         }
       }

@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div class="menu" v-if="$route.path!=='/login'">
     <ul class="menu-list">
       <li v-for="item in nav">
         <a @click="changeNav(item.path)" :class="{'choose' :item.path === isChoose}">
@@ -38,6 +38,9 @@ export default {
           vm.isChoose = vm.chooseNav[i].code;
         }
       }
+      if(vm.$route.path.indexOf('detail') !== -1){
+        vm.isChoose = '/subplate';
+      }
     },
     init () {
       const vm = this;
@@ -52,7 +55,7 @@ export default {
   .menu{
     border-bottom: 1px solid #f0f0f0;
     .menu-list{
-      width: 1200px;
+      width: 1000px;
       margin: auto;
       li{
         display: inline-block;
