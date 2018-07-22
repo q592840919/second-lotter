@@ -7,10 +7,11 @@
           <th v-for="item in stageNum">{{item}}</th>
           <th v-for="item in defaultNum" class="count">{{item}}</th>
         </tr>
-        <tr v-if="showCount" v-for="period in periods">
-          <td v-for="item in period.numbers"></td>
+        <tr v-if="showCount&&period.arr" v-for="(period,n) in periods">
+          <td class="ids" >{{n+1}}</td>
+          <td class="arr" v-for="item in period.arr">{{item}}</td>
           <td v-for="item in period.countNum">
-            <span class="lotte">{{item.num}}</span>
+            <span :class="{'lotte': item.count}">{{item.num}}</span>
             <span class="cout" v-if="item.count">{{item.count}}</span>
           </td>
           <!-- <td><span class="lotte">1</span><span class="cout">2</span></td> -->
@@ -26,15 +27,9 @@
           <td v-for="item in period.scores">
             <a :href="'/#/detail/'+period.id">{{item}}</a>
           </td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
+          <td v-for="item in periods.steps">
+            {{item}}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -58,7 +53,7 @@ export default {
   },
   methods: {
     init () {
-      
+      console.log(this.periods);
     },
   }
 };
@@ -73,6 +68,7 @@ export default {
       font-size: 18px;
       border-right: 0;
       display: inline-block;
+      vertical-align: top;
       th{
         background-color: #fff6c2;
         padding: 0 12px;

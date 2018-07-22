@@ -11,13 +11,10 @@
     <div class="num">
       <p>副板列表</p>
       <div class="list">
-        <span v-for="item in numList" @click="getBoardDetail(item.id)">{{item.value}}</span>
-        <span>1</span>
-        <span>1</span>
-        <span>1</span>
-        <span>1</span>
-        <span>1</span>
-        <span>1</span>
+        <div class="every-num" v-for="(item,i) in panels" @click="changeNum(i)">
+          <span v-if="item" class="ids" :class="{'choose': chooseNum === i}">{{i+1}}</span>
+          <span v-if="item" class="value">{{item}}</span>
+        </div>
       </div>
     </div>
     <div class="panel">
@@ -28,18 +25,19 @@
 
 <script>
 import MainPanel from '@/components/common/MainPanel'
+import getData from '@/service/getData';
 export default {
   name: 'detail',
   data() {
     return {
       now: Date,
-      numList: Array,
-      periods: Array
+      panels: Array,     //副板列表
+      periods: Array,      //副板详情参数
+      chooseNum: 0
     };
   },
   mounted () {
     const vm = this;
-    vm.now = vm.getFormatDate(new Date(), 1);
     vm.init();
   },
   components: {
@@ -48,24 +46,27 @@ export default {
   methods: {
     init () {
       const vm = this;
-      vm.now = vm.getFormatDate(new Date());
-      getBoardList();
+      vm.now = vm.getFormatDate(new Date(),1);
+      vm.getBoardList(vm);
     },
-    async getBoardDetail (id) {
-      const vm = this,
-      rep = await getData.boardDetail();
-      if(rep.success){
-        vm.periods = rep.data.data.periods;
-        vm.parseNum(vm.period);
+    
+    async getBoardList () {       //生成上面副板列表
+      const vm = this,rep = await getData.boardListAll();     //获取左边的值
+      vm.panels= rep.data;
+      vm.$set(vm.panels,vm.panels.length,'');
+      vm.getBoardDetail(vm.panels[0]);
+    },
+    changeNum (i) {       //选择数字生成副板
+      const vm = this;
+      vm.chooseNum = i;
+      if(vm.panels[i]){
+        vm.getBoardDetail(vm.panels[i]);
       }
     },
-    async getBoardList (time) {
+    async getBoardDetail (id) {       //生成下面副板详情
       const vm = this,
-      rep = await getData.boardList(time);
-      if(rep.success){
-        vm.numList = rep.data.data;
-        vm.getBoardDetail(id);
-      }
+      rep = await getData.boardDetail(vm.now,id);
+      vm.periods = rep.data[0].periods;
     }
   }
 };
@@ -86,7 +87,32 @@ export default {
     padding-bottom: 20px;
     border-bottom: 1px dashed #DCDCDC;
     .list{
-    font-size: 0;
+      font-size: 0;
+      .every-num{
+        display: inline-block;
+        font-size: 16px;
+        border: 1px solid #ABABAB;
+        line-height: 23px;
+        margin: 0 10px 10px 0;
+        .ids{
+          border-right: 1px solid #ABABAB;
+          height: 23px;
+          display: inline-block;
+          width: 32px;
+          text-align: center;
+          background-color: #d7f2ff;
+          cursor: pointer;
+        }
+        .choose{
+          background-color: #ffb100;
+          color: #FFFFFF;
+        }
+        .value{
+          letter-spacing: 2px;
+          width: 110px;
+          text-align: center;
+        }
+      }
       &>span{
         font-size: 16px;
         border: 1px solid #ABABAB;

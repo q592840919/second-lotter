@@ -8,13 +8,20 @@
     </div>
     <div class="time">
       <div>
-        <!-- <span>当前系统时间：</span>
-        <span class="is-time">{{now}}</span> -->
-        <span>期数：</span>
-        <input v-model="secDate.price"/>
         <span>中奖号码：</span>
         <input v-model="secDate.numbers"/>
-        <button @click="addPrice">添加</button>
+        <button @click="addAward">添加</button>
+      </div>
+    </div>
+    <div class="time">
+      <div>
+        <!-- <span>当前系统时间：</span>
+        <span class="is-time">{{now}}</span> -->
+        <!-- <span>中奖号码：</span>
+        <input v-model="secDate.numbers"/>
+        <span>期数：</span>
+        <input v-model="secDate.periodId"/>
+        <button @click="editAward">修改</button> -->
       </div>
     </div>
     <div class="main">
@@ -22,8 +29,8 @@
     </div>
     <div class="operation">
       <div class="oprat">
-        <input placeholder="输入每注金额(元)"/>
-        <button>计算下注金额</button>
+        <input v-model="price" placeholder="输入每注金额(元)"/>
+        <button @click="computePrice">计算下注金额</button>
       </div>
       <div class="info">
         <table class="pay"  cellpadding="0" cellspacing="0">
@@ -32,18 +39,9 @@
               <th>下注分值</th>
               <th v-for="item in scores">{{item}}</th>
             </tr>
-            <tr>
+            <tr class="value-mog">
               <td>下注金额</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
+              <td  v-for="item in money">{{item}}</td>
             </tr>
           </tbody>
         </table>
@@ -60,13 +58,15 @@ export default {
   data() {
     return {
       now: Date,
-      periods: Object,
-      scores: Array,
-      secDate: {
-        price: '',
+      periods: Object,  //主板副板返回值
+      scores: Array,    //下注分数
+      money: [],        //下注金额
+      secDate: {        //主板副板参数
+        periodId: '',
         numbers: '',
         dayId: ''
-      }
+      },
+      price: 1          //输入金额
     };
   },
   mounted () {
@@ -82,40 +82,55 @@ export default {
       vm.now = vm.secDate.dayId = vm.getFormatDate(new Date(),1);
       vm.getPeriodList();
     },
-    async getPeriodList () {
-      console.log(getData.periodList);
+    async getPeriodList () {          //获取主板信息
       const vm = this,
       rep = await getData.periodList(vm.now);
       vm.periods = rep.data.periods;
       vm.scores = rep.data.scores;
       vm.parseNum(vm.periods);
     },
-    parseNum (obj) {
+    parseNum (obj) {          //计算主板累计数字
       if(!obj){
         return;
       }
       obj.forEach((period,index) => {
         period.countNum = new Array(10);
+        period.arr = period.numbers?period.numbers.split(''): null;
+        if(period.arr){
+          period.arr.length = 5;
+        }
         let i = 0,n = 0;
         for (;i<period.countNum.length;i++) {
-          period.numbers.forEach((item) => {
-            if(item === i){
-              period.countNum[i] = {
-                num: item, 
-                count: ++n
-              };
-            }
-          })
+          if(period.numbers){
+            period.arr.forEach((item) => {
+              if(parseInt(item) === i){
+                period.countNum[i] = {
+                  num: item, 
+                  count: ++n
+                };
+              }
+            })
+          }
           n = 0;
           period.countNum[i] = period.countNum[i] ? period.countNum[i] : {num: ''};
         }
       })
     },
-    async addPrice () {
+    async addAward () {        //增加每期中奖号码
       const vm = this;
-      let rep = await getData.addPrice(vm.secDate);
-      
-    }
+      let rep = await getData.addAward(vm.now, `numbers=${vm.secDate.numbers}`);
+      vm.getPeriodList();
+    },
+    async editAward () {      //修改每期中奖号码
+      const vm = this;
+      let rep = await getData.addAward(vm.numbers);
+      vm.getPeriodList();
+    },
+    async computePrice () {     //计算下注金额
+      const vm = this;
+      let rep = await getData.computePrice(vm.now, vm.price);
+      vm.money = rep.data;
+    },
   }
 };
 </script>
@@ -123,8 +138,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
   .index {
-    width: 1200px;
+    width: 1300px;
     margin: auto;
+    input{
+      margin-right: 10px;
+    }
     .time {
       font-size: 18px;
       margin: 20px 0;
