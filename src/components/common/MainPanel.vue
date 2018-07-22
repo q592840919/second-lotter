@@ -7,7 +7,7 @@
           <th v-for="item in stageNum">{{item}}</th>
           <th v-for="item in defaultNum" class="count">{{item}}</th>
         </tr>
-        <tr>
+        <tr v-for="period in periods">
           <td v-for="item in period.numbers"></td>
           <td v-for="item in period.countNum">
             <span class="lotte">{{item.num}}</span>
@@ -22,9 +22,9 @@
         <tr>
           <th v-for="item in defaultNum">{{item}}</th>
         </tr>
-        <tr>
-          <td v-for="item in period.numbers">
-            <a href="/#/detail/1">1</a>
+        <tr v-for="period in periods">
+          <td v-for="item in period.scores">
+            <a :href="'/#/detail/'+period.id">{{item}}</a>
           </td>
           <td>1</td>
           <td>1</td>
@@ -42,14 +42,12 @@
 </template>
 
 <script>
-import getData from '@/service/getData';
 import {stageNum, defaultNum} from '@/config/panelConfig';
 export default {
   name: 'main-panel',
+  props: ['periods'],
   data() {
     return {
-      now: Date,
-      period: Object,
       stageNum: stageNum, 
       defaultNum: defaultNum
     };
@@ -60,33 +58,8 @@ export default {
   },
   methods: {
     init () {
-      const vm = this;
-      vm.now = vm.getFormatDate(new Date());
+      
     },
-    async getPeriodList () {
-      const vm = this,
-      rep = await getData.periodList();
-      if(rep.success){
-        vm.periods = rep.data.data.periods;
-        vm.parseNum(vm.period);
-      }
-    },
-    parseNum (obj) {
-      obj.countNum = new Array(10);
-      let i = 0,n = 0;
-      for(;i<countNum.length;i++){
-        vm.periods.numbers.forEach((item)=>{
-          if(item === i){
-            obj.countNum[i] = {
-              num: item, 
-              count: ++n
-            };
-          }
-        })
-        n = 0;
-        obj.countNum[i] = obj.countNum[i] ? obj.countNum[i] : {num: ''};
-      }
-    }
   }
 };
 </script>

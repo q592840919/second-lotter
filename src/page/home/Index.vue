@@ -25,7 +25,7 @@
           <tbody>
             <tr>
               <th>下注分值</th>
-              <th v-for="item in defaultNum">{{item}}</th>
+              <th v-for="item in scores">{{item}}</th>
             </tr>
             <tr>
               <td>下注金额</td>
@@ -50,20 +50,58 @@
 <script>
 import MainPanel from '@/components/common/MainPanel'
 import {defaultNum} from '@/config/panelConfig';
+import getData from '@/service/getData';
 export default {
   name: 'index',
   data() {
     return {
       now: Date,
-      defaultNum: defaultNum
+      defaultNum: defaultNum,
+      period: Object,
+      stageNum: stageNum, 
+      scores: Array
     };
   },
   mounted () {
     const vm = this;
     vm.now = vm.getFormatDate(new Date());
+    vm.init();
   },
   components: {
     MainPanel
+  },
+  methods: {
+    init () {
+      const vm = this;
+      vm.now = vm.getFormatDate(new Date());
+    },
+    async getPeriodList () {
+      const vm = this,
+      rep = await getData.periodList();
+      if(rep.success){
+        vm.periods = rep.data.data.periods;
+        vm.scores = rep.data.data.scores;
+        vm.parseNum(vm.periods);
+      }
+    },
+    parseNum (obj) {
+      obj.forEach((period,index) => {
+        period.countNum = new Array(10);
+        let i = 0,n = 0;
+        for (;i<period.countNum.length;i++) {
+          period.numbers.forEach((item) => {
+            if(item === i){
+              period.countNum[i] = {
+                num: item, 
+                count: ++n
+              };
+            }
+          })
+          n = 0;
+          period.countNum[i] = period.countNum[i] ? period.countNum[i] : {num: ''};
+        }
+      })
+    }
   }
 };
 </script>
