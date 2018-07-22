@@ -10,8 +10,8 @@
             <button @click="initBoard(false)">生成副板</button>
           </div>
           <div class="list" v-for="(item,i) in panel">
-            <span :class="{'choose': chooseNum === i}" @click="changeNum(i)">{{i}}</span>
-            <input :class="{'chooseer': chooseNum === i}" :value="item.value" maxlength="10"/>
+            <span :class="{'choose': chooseNum === i+1}" @click="viewBoard(item.value,i+1)">{{i+1}}</span>
+            <input :class="{'chooseer': chooseNum === i+1}" :value="item.value" maxlength="10"/>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@ export default {
       viceNum: 200,         //初始化左侧副板数
       defaultNum: defaultNum,
       panel: [],       //左侧副板填入框
-      chooseNum: 0,          //选择的左侧副板数字
+      chooseNum: 1,          //选择的左侧副板数字
       vicePanel: []         //右侧副板
     };
   },
@@ -79,15 +79,17 @@ export default {
     },
     changeNum (i) {       //选择数字生成副板
       const vm = this;
-      vm.chooseNum = i;
       if(vm.panel[i]){
         vm.viewBoard(vm.panel[i]);
       }
     },
-    async viewBoard (num){         //生成右侧副板
+    async viewBoard (num,i){         //生成右侧副板
       const vm = this,
       rep = await getData.viewBoard(num);
       vm.vicePanel = rep.data;
+      if(i){
+      vm.chooseNum = i;
+      }
     },
     async initBoard (num){         //生成右侧副板
       const vm = this,
