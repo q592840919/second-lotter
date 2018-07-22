@@ -1,16 +1,16 @@
 <template>
   <div class="subplate">
     <div class="init">
-      <span class="">需要生成的副板数：</span><input/>
+      <span class="">需要生成的副板数：</span><input v-model="viceNum" @change="initVice" maxlength="3"/>
     </div>
     <div class="content">
       <div class="left">
-        <div class="oprat">
-          <button>生成副板</button>
-        </div>
         <div class="info">
-          <div class="list">
-            <span>1</span><input/>
+          <div class="oprat">
+            <button >生成副板</button>
+          </div>
+          <div class="list" v-for="item in panel">
+            <span>{{item}}</span><input v-model="item.value" maxlength="10"/>
           </div>
         </div>
       </div>
@@ -19,27 +19,9 @@
         <table class="vice"  cellpadding="0" cellspacing="0">
           <tbody>
             <tr>
-              <th>1</th>
-              <th>2</th>
-              <th>3</th>
-              <th>4</th>
-              <th>5</th>
-              <th>6</th>
-              <th>7</th>
-              <th>8</th>
-              <th>9</th>
-              <th>10</th>
+              <th v-for="item in defaultNum">{{item}}</th>
             </tr>
             <tr>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
               <td>1</td>
             </tr>
           </tbody>
@@ -50,12 +32,37 @@
 </template>
 
 <script>
+import {defaultNum} from '@/config/panelConfig';
 export default {
   name: 'subplate',
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      viceNum: 20,
+      panel: Array,
+      defaultNum: defaultNum,
+      choosePanel: 0
     };
+  },
+  mounted () {
+    const vm = this;
+    vm.init();
+  },
+  methods: {
+    init () {
+      const vm = this;
+      vm.initVice();
+    },
+    initVice () {
+      const vm = this;
+      vm.panel = new Array(parseInt(vm.viceNum));
+      let i = 0;
+      for (;i<vm.panel.length;i++) {
+        vm.panel[i] = i + 1;
+      }
+    },
+    initBoard (){
+      
+    }
   }
 };
 </script>
@@ -76,9 +83,11 @@ export default {
         margin-right: 50px;
         vertical-align: middle;
         .info{
-          margin-top: 30px;
           padding-top: 20px;
           border-top: 1px dashed #CCCCCC;
+          .oprat{
+            margin-bottom: 20px;
+          }
           .list{
             span{
               border: 1px solid #BCBCBC;
@@ -89,6 +98,7 @@ export default {
               text-align: center;
               padding: 0 10px;
               background-color: #d7f2ff;
+              width: 48px;
             }
             input{
               border-radius: 0;
@@ -98,7 +108,7 @@ export default {
       }
       .right{
         display: inline-block;
-        vertical-align: -38px;
+        vertical-align: top;
         padding-top: 20px;
         border-top: 1px dashed #CCCCCC;
         .title{

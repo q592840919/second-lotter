@@ -1,19 +1,24 @@
 <template>
   <div class="index">
+    <div class="lotte-time">
+        <!-- <span>上一期开奖：</span>
+        <span class="lot-num">33333</span> -->
+        <!-- <span>下一期开奖时间：</span>
+        <span class="is-time">{{now}}</span> -->
+    </div>
     <div class="time">
       <div>
-        <span>当前系统时间：</span>
-        <span class="is-time">{{now}}</span>
+        <!-- <span>当前系统时间：</span>
+        <span class="is-time">{{now}}</span> -->
+        <span>期数：</span>
+        <input v-model="secDate.price"/>
+        <span>中奖号码：</span>
+        <input v-model="secDate.numbers"/>
+        <button @click="addPrice">添加</button>
       </div>
     </div>
-    <div class="lotte-time">
-        <span>上一期开奖：</span>
-        <span class="lot-num">33333</span>
-        <span>下一期开奖时间：</span>
-        <span class="is-time">{{now}}</span>
-    </div>
     <div class="main">
-      <Main-panel/>
+      <Main-panel :showCount="true" :periods="periods"/>
     </div>
     <div class="operation">
       <div class="oprat">
@@ -48,23 +53,24 @@
 </template>
 
 <script>
-import MainPanel from '@/components/common/MainPanel'
-import {defaultNum} from '@/config/panelConfig';
+import MainPanel from '@/components/common/MainPanel';
 import getData from '@/service/getData';
 export default {
   name: 'index',
   data() {
     return {
       now: Date,
-      defaultNum: defaultNum,
-      period: Object,
-      stageNum: stageNum, 
-      scores: Array
+      periods: Object,
+      scores: Array,
+      secDate: {
+        price: '',
+        numbers: '',
+        dayId: ''
+      }
     };
   },
   mounted () {
     const vm = this;
-    vm.now = vm.getFormatDate(new Date());
     vm.init();
   },
   components: {
@@ -73,18 +79,21 @@ export default {
   methods: {
     init () {
       const vm = this;
-      vm.now = vm.getFormatDate(new Date());
+      vm.now = vm.secDate.dayId = vm.getFormatDate(new Date(),1);
+      vm.getPeriodList();
     },
     async getPeriodList () {
+      console.log(getData.periodList);
       const vm = this,
-      rep = await getData.periodList();
-      if(rep.success){
-        vm.periods = rep.data.data.periods;
-        vm.scores = rep.data.data.scores;
-        vm.parseNum(vm.periods);
-      }
+      rep = await getData.periodList(vm.now);
+      vm.periods = rep.data.periods;
+      vm.scores = rep.data.scores;
+      vm.parseNum(vm.periods);
     },
     parseNum (obj) {
+      if(!obj){
+        return;
+      }
       obj.forEach((period,index) => {
         period.countNum = new Array(10);
         let i = 0,n = 0;
@@ -101,6 +110,11 @@ export default {
           period.countNum[i] = period.countNum[i] ? period.countNum[i] : {num: ''};
         }
       })
+    },
+    async addPrice () {
+      const vm = this;
+      let rep = await getData.addPrice(vm.secDate);
+      
     }
   }
 };
@@ -116,6 +130,7 @@ export default {
       margin: 20px 0;
     }
     .lotte-time{
+      margin-top: 20px;
       .lot-num{
         color: red;
         margin-right: 30px;

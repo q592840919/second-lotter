@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="panel">
-      <Main-panel/>
+      <Main-panel :showCount="false" :periods="periods"/>
     </div>
   </div>
 </template>
@@ -33,7 +33,8 @@ export default {
   data() {
     return {
       now: Date,
-      numList: Array
+      numList: Array,
+      periods: Array
     };
   },
   mounted () {
@@ -48,6 +49,7 @@ export default {
     init () {
       const vm = this;
       vm.now = vm.getFormatDate(new Date());
+      getBoardList();
     },
     async getBoardDetail (id) {
       const vm = this,

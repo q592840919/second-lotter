@@ -1,20 +1,25 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://api.example.com';
 
 export default {
     login (params) {
-        axios.post(`/login${params}`);
+       return axios.post(`/login/`,params);
     },
     periodList (dayId) {
-        axios.get(`/period/${dayId}`);
+       return axios.get(`/period/${dayId}`);
     },
     boardDetail (params) {
-        axios.get(`/board/${params.dayId}/${params.id}`);
+        return axios.get(`/board/${params.dayId}/${params.id}`);
     },
     boardList (dayId) {
-        axios.get(`/board/${dayId}`);
+        return axios.get(`/board/${dayId}`);
     },
     board () {
-        axios.get(`/board`);
+        return axios.get(`/board`);
+    },
+    addPrice (params) {
+        return axios.post(`/period`, params);
+    },
+    countPrice (dayId, params) {
+        return axios.post(`/period/${dayId}`, params);
     }
 }

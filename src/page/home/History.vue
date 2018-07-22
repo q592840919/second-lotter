@@ -4,10 +4,10 @@
       选择往期日期：
       <date-picker v-model="time" :first-day-of-week="1"></date-picker>
       <span class="time-num">显示期数</span>
-      <input/>
+      <input />
     </div>
     <div class="content">
-      <Main-panel/>
+      <Main-panel :showCount="true"/>
     </div>
   </div>
 </template>

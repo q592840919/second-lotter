@@ -7,7 +7,7 @@
           <th v-for="item in stageNum">{{item}}</th>
           <th v-for="item in defaultNum" class="count">{{item}}</th>
         </tr>
-        <tr v-for="period in periods">
+        <tr v-if="showCount" v-for="period in periods">
           <td v-for="item in period.numbers"></td>
           <td v-for="item in period.countNum">
             <span class="lotte">{{item.num}}</span>
@@ -45,7 +45,7 @@
 import {stageNum, defaultNum} from '@/config/panelConfig';
 export default {
   name: 'main-panel',
-  props: ['periods'],
+  props: ['periods','showCount'],
   data() {
     return {
       stageNum: stageNum, 
