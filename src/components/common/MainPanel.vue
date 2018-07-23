@@ -27,6 +27,8 @@
           <td v-for="item in period.scores">
             <a :href="'/#/detail/'+period.id">{{item}}</a>
           </td>
+        </tr>
+        <tr>
           <td v-for="item in periods.steps">
             {{item}}
           </td>
