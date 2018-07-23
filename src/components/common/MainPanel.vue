@@ -5,12 +5,12 @@
         <tr>
           <th class="count-title">期数</th>
           <th v-for="item in stageNum">{{item}}</th>
-          <th v-for="item in defaultNum" class="count">{{item}}</th>
+          <th v-for="item in defaultNum" v-if="showCount" class="count">{{item}}</th>
         </tr>
         <tr v-if="period.numbers" v-for="(period,n) in periods" v-show="n<during||120">
           <td class="ids" >{{n+1}}</td>
-          <td class="arr" v-for="item in period.numbers.split('')">{{item}}</td>
-          <td  v-if="showCount&&period.arr" v-for="item in period.countNum">
+          <td class="arr" v-for="item in period.arr">{{item}}</td>
+          <td v-if="showCount&&period.arr" v-for="item in period.countNum">
             <span :class="{'lotte': item.count}">{{item.num}}</span>
             <span class="cout" v-if="item.count">{{item.count}}</span>
           </td>

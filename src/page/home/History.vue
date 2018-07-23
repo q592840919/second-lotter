@@ -44,6 +44,12 @@ export default {
       const vm = this,
       rep = await getData.periodList(dayid ? vm.getFormatDate(dayid,1) : vm.now);
       vm.periods = rep.data.periods;
+      vm.periods.forEach((period,index) => {
+        period.arr = period.numbers?period.numbers.split(''): null;
+        if(period.arr){
+          period.arr.length = 5;
+        }
+      });
     }
   }
 };
