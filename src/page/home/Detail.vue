@@ -49,11 +49,11 @@ export default {
       vm.now = vm.getFormatDate(new Date(),1);
       vm.getBoardList(vm);
     },
-    
+
     async getBoardList () {       //生成上面副板列表
       const vm = this,rep = await getData.boardListAll();     //获取左边的值
-      vm.panels= rep.data;
-      vm.$set(vm.panels,vm.panels.length,'');
+      vm.panels= new Array(rep.data.length);
+      vm.panels = rep.data;
       vm.getBoardDetail(vm.panels[0]);
     },
     changeNum (i) {       //选择数字生成副板

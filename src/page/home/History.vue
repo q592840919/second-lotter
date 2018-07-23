@@ -2,12 +2,12 @@
   <div class="history">
     <div class="date">
       选择往期日期：
-      <date-picker v-model="time" :first-day-of-week="1"></date-picker>
+      <date-picker v-model="time" :first-day-of-week="1" @change="getPeriodList(time)"></date-picker>
       <span class="time-num">显示期数</span>
-      <input />
+      <input v-model="during"/>
     </div>
     <div class="content">
-      <Main-panel :showCount="true"/>
+      <Main-panel :showCount="false" :periods="periods" :during="during"/>
     </div>
   </div>
 </template>
@@ -15,16 +15,36 @@
 <script>
 import DatePicker from 'vue2-datepicker';
 import MainPanel from '@/components/common/MainPanel'
+import getData from '@/service/getData';
 export default {
-  name: 'market',
+  name: 'history',
   data() {
     return {
-      time: ''
+      time: new Date(),
+      now: Date,
+      periods: Object,
+      during: 120
     };
   },
   components: {
     DatePicker,
     MainPanel
+  },
+   mounted () {
+    const vm = this;
+    vm.init();
+  },
+  methods: {
+    init () {
+      const vm = this;
+      vm.now = vm.getFormatDate(new Date(),1);
+      vm.getPeriodList();
+    },
+    async getPeriodList (dayid) {          //获取主板信息
+      const vm = this,
+      rep = await getData.periodList(dayid ? vm.getFormatDate(dayid,1) : vm.now);
+      vm.periods = rep.data.periods;
+    }
   }
 };
 </script>

@@ -10,8 +10,9 @@
             <button @click="initBoard(false)">生成副板</button>
           </div>
           <div class="list" v-for="(item,i) in panel">
-            <span :class="{'choose': chooseNum === i+1}" @click="viewBoard(item.value,i+1)">{{i+1}}</span>
-            <input :class="{'chooseer': chooseNum === i+1}" :value="item.value" maxlength="10"/>
+            <span class="titles" :class="{'choose': chooseNum === i+1}" @click="viewBoard(item.value,i+1)">{{i+1}}</span>
+            <input :class="{'chooseer': chooseNum === i+1}" v-model="item.value" maxlength="10"/>
+            <span class="close" @click="close(item.value,i)">X</span>
           </div>
         </div>
       </div>
@@ -21,12 +22,22 @@
           <tbody>
             <tr>
               <th v-for="item in defaultNum">{{item}}</th>
+              <th class="choose">序号</th>
             </tr>
-            <tr v-for="vPanel in vicePanel[0]">
-              <td v-for="item in vPanel.numbers">{{item}}</td>
+            <tr v-for="(vPanel,i) in vicePanel[0].numbers">
+              <td v-for="item in vPanel" >{{item}}</td>
+              <td class="choose">{{String(i).split('')[String(i).length-1]}}</td>
             </tr>
-            <tr v-for="vPanel in vicePanel[1]">
-              <td v-for="item in vPanel.numbers">{{item}}</td>
+          </tbody>
+          
+          <tbody>
+            <tr>
+              <th v-for="item in defaultNum">{{item}}</th>
+              <th class="choose">序号</th>
+            </tr>
+            <tr v-for="(vPanel,i) in vicePanel[1].numbers">
+              <td v-for="item in vPanel" >{{item}}</td>
+              <td class="choose">{{String(i).split('')[String(i).length-1]}}</td>
             </tr>
           </tbody>
         </table>
@@ -47,7 +58,7 @@ export default {
       defaultNum: defaultNum,
       panel: [],       //左侧副板填入框
       chooseNum: 1,          //选择的左侧副板数字
-      vicePanel: []         //右侧副板
+      vicePanel: [[{numbers:[]}],[{numbers:[]}]]         //右侧副板
     };
   },
   mounted () {
@@ -62,12 +73,15 @@ export default {
     async initVice () {         //初始化左边副板填入框
       const vm = this;
       vm.now = vm.getFormatDate(new Date(),1);
+      vm.panel = new Array(vm.viceNum);
       for(let index = 0; index < vm.viceNum; index++){
-        vm.$set(vm.panel,index,'');
+        vm.panel[index] = {
+          value: ''
+        };
       }
       let i = 0, rep;
       rep = await getData.boardListAll();     //获取左边的值
-      
+
       for (;i<rep.data.length;i++) {
         vm.panel[i] = {
           value: rep.data[i]
@@ -77,34 +91,43 @@ export default {
         vm.viewBoard(vm.panel[0].value);
       }
     },
-    changeNum (i) {       //选择数字生成副板
-      const vm = this;
-      if(vm.panel[i]){
-        vm.viewBoard(vm.panel[i]);
-      }
-    },
     async viewBoard (num,i){         //生成右侧副板
-      const vm = this,
-      rep = await getData.viewBoard(num);
-      vm.vicePanel = rep.data;
-      if(i){
-      vm.chooseNum = i;
+      let vm = this,
+       rep;
+      vm.chooseNum = i||vm.chooseNum;
+      if(!num){
+        return;
+      }else{
+        rep = await getData.viewBoard(num);
+        vm.vicePanel = rep.data[0] ? rep.data : [[{numbers:[]}],[{numbers:[]}]];
       }
     },
-    async initBoard (num){         //生成右侧副板
+    async initBoard (){         //生成右侧副板
       const vm = this,
       rep = await getData.board(document.querySelector('.chooseer').value);
-      vm.vicePanel = rep.data;
+        vm.viewBoard (document.querySelector('.chooseer').value);
+    },
+    async close (num,i){
+      const vm = this;
+      if(!num){
+        return;
+      }
+      vm.$set(vm.panel,i,{value: ''});
+      const rep = await getData.deleteBoard(num);
     }
-  } 
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
   .subplate {
-    width: 1000px;
+    width: 1200px;
     margin: auto;
+      .choose{
+        background-color: #ffb100;
+        color: #FFFFFF;
+      }
     .init{
       margin-top: 30px;
     }
@@ -122,7 +145,7 @@ export default {
             margin-bottom: 20px;
           }
           .list{
-            span{
+            .titles{
               border: 1px solid #BCBCBC;
               border-right: 0;
               line-height: 27px;
@@ -142,6 +165,19 @@ export default {
               border-radius: 0;
               letter-spacing: 2px;
               font-size: 14px;
+              margin-left: -5px;
+              width: 150px;
+            }
+            .close{
+              display: none;
+              cursor: pointer;
+              font: 20px/20px sans-serif;
+              color: #009ddc;
+            }
+            &:hover{
+              .close{
+                display: inline-block;
+              }
             }
           }
         }
@@ -156,9 +192,16 @@ export default {
           margin-bottom: 20px;
         }
         .vice{
-          width: 600px;
+          width: 792px;
+          tbody{
+            display: inline-block;
+          }
           th{
             width: 35px;
+          }
+          .panels{
+            display: inline-block;
+            vertical-align: middle;
           }
         }
       }

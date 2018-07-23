@@ -7,10 +7,10 @@
           <th v-for="item in stageNum">{{item}}</th>
           <th v-for="item in defaultNum" class="count">{{item}}</th>
         </tr>
-        <tr v-if="showCount&&period.arr" v-for="(period,n) in periods">
+        <tr v-if="period.numbers" v-for="(period,n) in periods" v-show="n<during">
           <td class="ids" >{{n+1}}</td>
-          <td class="arr" v-for="item in period.arr">{{item}}</td>
-          <td v-for="item in period.countNum">
+          <td class="arr" v-for="item in period.numbers.split('')">{{item}}</td>
+          <td  v-if="showCount&&period.arr" v-for="item in period.countNum">
             <span :class="{'lotte': item.count}">{{item.num}}</span>
             <span class="cout" v-if="item.count">{{item.count}}</span>
           </td>
@@ -40,7 +40,7 @@
 import {stageNum, defaultNum} from '@/config/panelConfig';
 export default {
   name: 'main-panel',
-  props: ['periods','showCount'],
+  props: ['periods','showCount','during'],
   data() {
     return {
       stageNum: stageNum, 

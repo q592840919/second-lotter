@@ -26,8 +26,8 @@ export default {
     board (params) {
         return axios.post(`/board/`+ params);
     },
-    deleteBoard (params) {
-        return axios.delete(`/board/`, params);
+    deleteBoard (num) {
+        return axios.delete(`/board/${num}`);
     },
     //返回所有生成副板数字
     boardListAll () {

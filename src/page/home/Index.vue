@@ -9,7 +9,7 @@
     <div class="time">
       <div>
         <span>中奖号码：</span>
-        <input v-model="secDate.numbers"/>
+        <input v-model="secDate.numbers" maxlength="5"/>
         <button @click="addAward">添加</button>
       </div>
     </div>
@@ -80,6 +80,7 @@ export default {
     init () {
       const vm = this;
       vm.now = vm.secDate.dayId = vm.getFormatDate(new Date(),1);
+      vm.money = new Array(10);
       vm.getPeriodList();
     },
     async getPeriodList () {          //获取主板信息
@@ -105,7 +106,7 @@ export default {
             period.arr.forEach((item) => {
               if(parseInt(item) === i){
                 period.countNum[i] = {
-                  num: item, 
+                  num: item,
                   count: ++n
                 };
               }
