@@ -7,7 +7,7 @@
           <th v-for="item in stageNum">{{item}}</th>
           <th v-for="item in defaultNum" class="count">{{item}}</th>
         </tr>
-        <tr v-if="period.numbers" v-for="(period,n) in periods" v-show="n<during">
+        <tr v-if="period.numbers" v-for="(period,n) in periods" v-show="n<during||120">
           <td class="ids" >{{n+1}}</td>
           <td class="arr" v-for="item in period.numbers.split('')">{{item}}</td>
           <td  v-if="showCount&&period.arr" v-for="item in period.countNum">
