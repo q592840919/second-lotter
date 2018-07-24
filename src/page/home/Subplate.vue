@@ -24,7 +24,7 @@
               <th v-for="item in defaultNum">{{item}}</th>
               <th class="choose">序号</th>
             </tr>
-            <tr v-for="(vPanel,i) in vicePanel[0].numbers">
+            <tr v-for="(vPanel,i) in vicePanel[1].numbers">
               <td v-for="item in vPanel" >{{item}}</td>
               <td class="choose">{{String(i).split('')[String(i).length-1]}}</td>
             </tr>
@@ -35,7 +35,7 @@
               <th v-for="item in defaultNum">{{item}}</th>
               <th class="choose">序号</th>
             </tr>
-            <tr v-for="(vPanel,i) in vicePanel[1].numbers">
+            <tr v-for="(vPanel,i) in vicePanel[0].numbers">
               <td v-for="item in vPanel" >{{item}}</td>
               <td class="choose">{{String(i).split('')[String(i).length-1]}}</td>
             </tr>

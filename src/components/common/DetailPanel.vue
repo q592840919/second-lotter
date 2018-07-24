@@ -5,33 +5,34 @@
         <tr>
           <th class="count-title">期数</th>
           <th v-for="item in stageNum">{{item}}</th>
-          <th v-for="item in defaultNum" v-if="showCount" class="count">{{item}}</th>
         </tr>
-        <tr v-for="(period,n) in periods" v-show="n<during||120">
+        <tr v-for="(arr,n) in content[0].arr" >
           <td class="ids" >{{n+1}}</td>
-          <td class="arr" v-if="period.arr" v-for="item in period.arr">{{item}}</td>
-          <td v-if="!period.arr&&index<5" class="arr-null" v-for="(item,index) in defaultNum"></td>
-          <td v-if="showCount" v-for="item in period.countNum">
-            <span :class="{'lotte': item.count}">{{item.num}}</span>
-            <span class="cout" v-if="item.count">{{item.count}}</span>
-          </td>
-          <!-- <td><span class="lotte">1</span><span class="cout">2</span></td> -->
+          <td v-if="arr" class="arr" v-for="item in arr">{{item}}</td>
+          <td v-if="!arr&&index<5" class="arr-null" v-for="(item,index) in defaultNum"></td>
         </tr>
       </tbody>
     </table>
-    <table class="vice"  cellpadding="0" cellspacing="0">
+    <table  class="vice"  cellpadding="0" cellspacing="0">
       <tbody>
         <tr>
-          <th v-for="item in defaultNum">{{item}}</th>
+          <th v-for="item in content[1].name.split('')">{{item}}</th>
         </tr>
-        <tr v-for="period in periods">
-          <td class="scores-it" v-for="item in period.scores">
-            <a :href="'/#/detail/'+period.id">{{item}}</a>
+        <tr v-for="(num,i) in content[1].boardNumbers" v-if="num">
+          <td v-for="(item,n) in num">
+            <span >{{item}}</span>
+            <span  class="import"  v-if="i<showSteps">{{content[1].steps[i][n]}}</span>
           </td>
         </tr>
+      </tbody>
+      <tbody style="margin-left: -5px;border-left: 2px solid #ABABAB">
         <tr>
-          <td v-for="item in periods.steps">
-            {{item}}
+          <th v-for="item in content[0].name.split('')">{{item}}</th>
+        </tr>
+        <tr v-for="(num,i) in content[0].boardNumbers" v-if="num">
+          <td v-for="(item,n) in num">
+            <span >{{item}}</span>
+            <span  class="import" v-if="i<showSteps">{{content[0].steps[i][n]}}</span>
           </td>
         </tr>
       </tbody>
@@ -42,11 +43,11 @@
 <script>
 import {stageNum, defaultNum} from '@/config/panelConfig';
 export default {
-  name: 'main-panel',
-  props: ['periods','showCount','during'],
+  name: 'detail-panel',
+  props: ['content','showSteps'],
   data() {
     return {
-      stageNum: stageNum, 
+      stageNum: stageNum,
       defaultNum: defaultNum
     };
   },
@@ -56,8 +57,7 @@ export default {
   },
   methods: {
     init () {
-      console.log(this.periods);
-    },
+    }
   }
 };
 </script>
@@ -103,19 +103,27 @@ export default {
     .vice{
       font-size: 18px;
       display: inline-block;
-      tr{
-        th{
-          background-color: #d7f2ff;
-          padding: 0 15px;
+      tbody{
+        display: inline-block;
+        tr{
+          th{
+            background-color: #d7f2ff;
+            padding: 0 15px;
+          }
+          td{
+            color: #bd8b18;
+            width: 55px;
+            .import {
+              display: inline-block;
+              width: 20px;
+              border-radius: 50px;
+              background-color: #0088ff;
+              height: 20px;
+              line-height: 20px;
+              color: #FFFFFF;
+            }
+          }
         }
-        td{
-          cursor: pointer;
-          color: #1E50A2;
-        }
-      }
-      .scores-it{
-        width: 42px;
-        height: 26px;
       }
     }
   }

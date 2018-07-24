@@ -18,13 +18,13 @@
       </div>
     </div>
     <div class="panel">
-      <Main-panel :showCount="false" :periods="periods"/>
+      <Detail-panel :showSteps="showSteps" :content="content"/>
     </div>
   </div>
 </template>
 
 <script>
-import MainPanel from '@/components/common/MainPanel'
+import DetailPanel from '@/components/common/DetailPanel'
 import getData from '@/service/getData';
 export default {
   name: 'detail',
@@ -32,8 +32,9 @@ export default {
     return {
       now: Date,
       panels: Array,     //副板列表
-      periods: Array,      //副板详情参数
-      chooseNum: 0
+      content: Array,      //副板详情参数
+      chooseNum: 0,
+      showSteps: 120
     };
   },
   mounted () {
@@ -41,7 +42,7 @@ export default {
     vm.init();
   },
   components: {
-    MainPanel
+    DetailPanel
   },
   methods: {
     init () {
@@ -65,8 +66,16 @@ export default {
     },
     async getBoardDetail (id) {       //生成下面副板详情
       const vm = this,
-      rep = await getData.boardDetail(vm.now,id);
-      vm.periods = rep.data[0].periods;
+      rep = await getData.boardDetail(id,vm.now);
+      vm.content = rep.data;
+      vm.content[0].arr = [];
+      vm.content[0].numbers.forEach((cent,index) => {
+        vm.content[0].arr[index] = cent?cent.split(''): null;
+        if(cent){
+          vm.showSteps = index;
+        } 
+      });
+      vm.showSteps = vm.showSteps + 2;
     }
   }
 };
@@ -75,7 +84,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
 .detail {
-  width: 1200px;
+  width: 1400px;
   margin: auto;
   .date{
     margin-top: 30px;
