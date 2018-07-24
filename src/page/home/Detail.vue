@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="panel">
-      <Detail-panel :showSteps="showSteps" :content="content"/>
+      <Detail-panel :showSteps="showSteps" v-if="openStep" :content="content"/>
     </div>
   </div>
 </template>
@@ -34,7 +34,8 @@ export default {
       panels: Array,     //副板列表
       content: Array,      //副板详情参数
       chooseNum: 0,
-      showSteps: 120
+      showSteps: 120,
+      openStep: false
     };
   },
   mounted () {
@@ -76,6 +77,7 @@ export default {
         } 
       });
       vm.showSteps = vm.showSteps + 2;
+      vm.openStep = true;
     }
   }
 };
