@@ -48,7 +48,7 @@ export default {
   methods: {
     init () {
       const vm = this;
-      vm.now = vm.getFormatDate(new Date(),1);
+      vm.now = vm.$route.params.dayId || vm.getFormatDate(new Date(),1);
       vm.getBoardList(vm);
     },
 

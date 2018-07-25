@@ -26,7 +26,7 @@
         </tr>
         <tr v-for="period in periods">
           <td class="scores-it" v-for="item in period.scores">
-            <a :href="'/index.html#/detail'">{{item}}</a>
+            <a :href="'/index.html#/detail/'+now">{{item}}</a>
           </td>
         </tr>
         <tr>
@@ -43,7 +43,7 @@
 import {stageNum, defaultNum} from '@/config/panelConfig';
 export default {
   name: 'main-panel',
-  props: ['periods','showCount','during'],
+  props: ['periods','showCount','during','now'],
   data() {
     return {
       stageNum: stageNum, 

@@ -27,6 +27,10 @@ export default new Router({
       component: Detail
     },
     {
+      path: '/detail/:dayId',
+      component: Detail
+    },
+    {
       path: '/history',
       component: History
     }

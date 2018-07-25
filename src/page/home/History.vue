@@ -7,7 +7,7 @@
       <input v-model="during"/>
     </div>
     <div class="content">
-      <Main-panel :showCount="false" :periods="periods" :during="during"/>
+      <Main-panel :showCount="false" :periods="periods" :during="during" :now="now"/>
     </div>
   </div>
 </template>
