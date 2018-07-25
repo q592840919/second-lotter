@@ -1,56 +1,45 @@
 <template>
   <div class="index">
-    <div class="lotte-time">
-        <!-- <span>上一期开奖：</span>
-        <span class="lot-num">33333</span> -->
-        <!-- <span>下一期开奖时间：</span>
-        <span class="is-time">{{now}}</span> -->
-    </div>
     <div class="time">
-      <div>
+      <div class="num-award">
         <span>中奖号码：</span>
         <input v-model="secDate.numbers" maxlength="5"/>
         <button @click="addAward">添加</button>
       </div>
-    </div>
-    <div class="time">
-      <div>
-        <!-- <span>当前系统时间：</span>
-        <span class="is-time">{{now}}</span> -->
-        <!-- <span>中奖号码：</span>
-        <input v-model="secDate.numbers"/>
-        <span>期数：</span>
-        <input v-model="secDate.periodId"/>
-        <button @click="editAward">修改</button> -->
+      
+      <div class="operation">
+        <div class="oprat">
+          <input v-model="price" placeholder="输入每注金额(元)"/>
+          <button @click="computePrice">计算下注金额</button>
+        </div>
+        <div class="info">
+          <table class="pay"  cellpadding="0" cellspacing="0">
+            <tbody>
+              <tr>
+                <th>序号</th>
+                <th v-for="item in defaultNum">{{item}}</th>
+              </tr>
+              <tr>
+                <th>遗漏步数</th>
+                <th v-for="item in scores">{{item}}</th>
+              </tr>
+              <tr class="value-mog">
+                <td>下注金额</td>
+                <td  v-for="item in money">{{item}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <div class="main">
       <Main-panel :showCount="true" :periods="periods"/>
     </div>
-    <div class="operation">
-      <div class="oprat">
-        <input v-model="price" placeholder="输入每注金额(元)"/>
-        <button @click="computePrice">计算下注金额</button>
-      </div>
-      <div class="info">
-        <table class="pay"  cellpadding="0" cellspacing="0">
-          <tbody>
-            <tr>
-              <th>下注分值</th>
-              <th v-for="item in scores">{{item}}</th>
-            </tr>
-            <tr class="value-mog">
-              <td>下注金额</td>
-              <td  v-for="item in money">{{item}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
+import {defaultNum} from '@/config/panelConfig';
 import MainPanel from '@/components/common/MainPanel';
 import getData from '@/service/getData';
 export default {
@@ -66,7 +55,8 @@ export default {
         numbers: '',
         dayId: ''
       },
-      price: 1          //输入金额
+      price: 1,          //输入金额
+      defaultNum: defaultNum
     };
   },
   mounted () {
@@ -146,7 +136,30 @@ export default {
     }
     .time {
       font-size: 18px;
-      margin: 20px 0;
+      margin: 20px auto;
+      display: table;
+      width: 1180px;
+      padding-bottom: 30px;
+      border-bottom: 1px dashed #ABABAB;
+      >div{
+        display: inline-block;
+      }
+      .operation{
+        text-align: right;
+        float: right;
+        .info{
+          float: right;
+          margin: 10px 0;
+          table{
+            td{
+              line-height: 35px;
+            }
+            th{
+              padding: 0 15px;
+            }
+          }
+        }
+      }
     }
     .lotte-time{
       margin-top: 20px;
@@ -157,22 +170,6 @@ export default {
     }
     .main {
       margin-top: 60px;
-    }
-    .operation{
-      margin-top: 60px;
-      text-align: right;
-      .info{
-        float: right;
-        margin: 10px 0;
-        table{
-          td{
-            line-height: 35px;
-          }
-          th{
-            padding: 0 15px;
-          }
-        }
-      }
     }
   }
 </style>

@@ -21,23 +21,23 @@
         <table class="vice"  cellpadding="0" cellspacing="0">
           <tbody>
             <tr>
-              <th v-for="item in defaultNum">{{item}}</th>
+              <th v-for="item in defaultNum" class="title-num">{{item}}</th>
               <th class="choose">序号</th>
             </tr>
             <tr v-for="(vPanel,i) in vicePanel[1].numbers">
               <td v-for="item in vPanel" >{{item}}</td>
-              <td class="choose">{{String(i).split('')[String(i).length-1]}}</td>
+              <td class="choose">{{i+1}}</td>
             </tr>
           </tbody>
           
           <tbody>
             <tr>
-              <th v-for="item in defaultNum">{{item}}</th>
+              <th v-for="item in defaultNum" class="title-num">{{item}}</th>
               <th class="choose">序号</th>
             </tr>
             <tr v-for="(vPanel,i) in vicePanel[0].numbers">
               <td v-for="item in vPanel" >{{item}}</td>
-              <td class="choose">{{String(i).split('')[String(i).length-1]}}</td>
+              <td class="choose">{{i+1}}</td>
             </tr>
           </tbody>
         </table>
@@ -127,6 +127,10 @@ export default {
       .choose{
         background-color: #ffb100;
         color: #FFFFFF;
+      }
+      .title-num{
+        color: #3d61cf;
+        background-color: #fff6f5;
       }
     .init{
       margin-top: 30px;

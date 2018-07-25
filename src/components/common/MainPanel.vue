@@ -10,8 +10,8 @@
         <tr v-for="(period,n) in periods" v-show="n<during||120">
           <td class="ids" >{{n+1}}</td>
           <td class="arr" v-if="period.arr" v-for="item in period.arr">{{item}}</td>
-          <td v-if="!period.arr&&index<5" class="arr-null" v-for="(item,index) in defaultNum"></td>
-          <td v-if="showCount" v-for="item in period.countNum">
+          <td  v-if="!period.arr&&index<5" class="arr-null" v-for="(item,index) in defaultNum"></td>
+          <td class="center" v-if="showCount" v-for="item in period.countNum">
             <span :class="{'lotte': item.count}">{{item.num}}</span>
             <span class="cout" v-if="item.count">{{item.count}}</span>
           </td>
@@ -26,7 +26,7 @@
         </tr>
         <tr v-for="period in periods">
           <td class="scores-it" v-for="item in period.scores">
-            <a :href="'/#/detail/'+period.id">{{item}}</a>
+            <a :href="'/index.html#/detail'">{{item}}</a>
           </td>
         </tr>
         <tr>
@@ -84,20 +84,27 @@ export default {
         background-color: #c2ffe6;
       }
       td{
+        height: 26px;
         .lotte{
           display: inline-block;
           width: 20px;
           border-radius: 50px;
-          background-color: #c84c59;
+          background-color: #fdf9f8;
           height: 20px;
           line-height: 20px;
-          color: #FFFFFF;
+          color: #000000;
+          box-shadow: 0 0 10px #038fff;
         }
         .cout{
-          color: #f6ab19;
+          color: #708b3a;
           display: inline-block;
-          margin-left: 3px;
+          margin-left: 7px;
+          margin-bottom: -3px;
+          font-size: 11px;
         }
+      }
+      .center{
+        background-color: #fdf9f8;
       }
     }
     .vice{
@@ -110,7 +117,10 @@ export default {
         }
         td{
           cursor: pointer;
-          color: #1E50A2;
+          a{
+            
+            color: #7d3c25;
+          }
         }
       }
       .scores-it{

@@ -19,9 +19,9 @@
           <th v-for="item in content[1].name.split('')">{{item}}</th>
         </tr>
         <tr v-for="(num,i) in content[1].boardNumbers" v-if="num">
-          <td v-for="(item,n) in num">
-            <span >{{item}}</span>
-            <span  class="import"  v-if="i<showSteps">{{content[1].steps[i][n]}}</span>
+          <td class="center" v-for="(item,n) in num">
+            <span :class="{'import':content[1].steps[i][n]===0&&i<showSteps}">{{item}}</span>
+            <span  class="import" :class="{'special': content[1].steps[i][n] ===1}" v-if="i<showSteps&&content[1].steps[i][n]!==0">{{content[1].steps[i][n]}}</span>
           </td>
         </tr>
       </tbody>
@@ -31,8 +31,8 @@
         </tr>
         <tr v-for="(num,i) in content[0].boardNumbers" v-if="num">
           <td v-for="(item,n) in num">
-            <span >{{item}}</span>
-            <span  class="import" v-if="i<showSteps">{{content[0].steps[i][n]}}</span>
+            <span :class="{'import':content[0].steps[i][n]===0&&i<showSteps}">{{item}}</span>
+            <span class="import" :class="{'special2': content[0].steps[i][n] ===1}"  v-if="i<showSteps&&content[0].steps[i][n]!==0">{{content[0].steps[i][n]}}</span>
           </td>
         </tr>
       </tbody>
@@ -84,6 +84,7 @@ export default {
         background-color: #c2ffe6;
       }
       td{
+        height: 25px;
         .lotte{
           display: inline-block;
           width: 20px;
@@ -117,12 +118,33 @@ export default {
               display: inline-block;
               width: 20px;
               border-radius: 50px;
-              background-color: #0088ff;
+              background-color: #fdf9f8;
               height: 20px;
               line-height: 20px;
-              color: #FFFFFF;
+              color: #000000;
+              box-shadow: 0 0 10px #038fff;
             }
+            .special{
+              color: #708b3a;
+              font-size: 11px;
+              width: 1px;
+              margin-left: 6px;
+              background-color: #fdf9f8;
+              box-shadow: none;
+            }
+            .special2{
+              color: #ff1111;
+              font-size: 11px;
+              width: 1px;
+              margin-left: 6px;
+              background-color: #ded3d7;
+              box-shadow: none;
+            }
+            
           }
+            .center{
+              background-color: #fdf9f8;
+            }
         }
       }
     }

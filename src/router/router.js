@@ -23,7 +23,7 @@ export default new Router({
       component: Subplate
     },
     {
-      path: '/detail/:id',
+      path: '/detail',
       component: Detail
     },
     {
