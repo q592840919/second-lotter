@@ -41,8 +41,9 @@ export default {
       vm.getPeriodList();
     },
     async getPeriodList (dayid) {          //获取主板信息
-      const vm = this,
-      rep = await getData.periodList(dayid ? vm.getFormatDate(dayid,1) : vm.now);
+      let vm = this,rep;
+      vm.now = dayid ? vm.getFormatDate(dayid,1) : vm.now;
+      rep = await getData.periodList(vm.now);
       vm.periods = rep.data.periods;
       vm.periods.forEach((period,index) => {
         period.arr = period.numbers?period.numbers.split(''): null;

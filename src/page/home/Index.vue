@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="main">
-      <Main-panel :showCount="true" :periods="periods"/>
+      <Main-panel :showCount="true" :periods="periods" :now="getFormatDate(new Date(),1)"/>
     </div>
   </div>
 </template>
@@ -118,8 +118,12 @@ export default {
       vm.getPeriodList();
     },
     async computePrice () {     //计算下注金额
-      const vm = this;
-      let rep = await getData.computePrice(vm.now, vm.price);
+      const vm = this,
+      params = {
+        price: vm.price,
+        steps: `${vm.scores.join()}`
+      };
+      let rep = await getData.computePrice(vm.now, params);
       vm.money = rep.data;
     },
   }

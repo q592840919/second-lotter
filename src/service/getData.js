@@ -16,7 +16,7 @@ export default {
     },
     //计算分值
     computePrice (dayId, params) {
-        return axios.get(`/period/${dayId}/price?price=${params}`);
+        return axios.get(`/period/${dayId}/price?price=${params.price}&steps=${params.steps}`);
     },
     //副板详情
     boardDetail (num,dayId) {

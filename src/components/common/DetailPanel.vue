@@ -21,7 +21,7 @@
         <tr v-for="(num,i) in content[1].boardNumbers" v-if="num">
           <td class="center" v-for="(item,n) in num">
             <span :class="{'import':content[1].steps[i][n]===0&&i<showSteps}">{{item}}</span>
-            <span  class="import" :class="{'special': content[1].steps[i][n] ===1}" v-if="i<showSteps&&content[1].steps[i][n]!==0">{{content[1].steps[i][n]}}</span>
+            <span  class="import" :class="{'special': content[1].steps[i][n] ===1 || !(content[1].steps[i][n]===0&&i<showSteps)}" v-if="i<showSteps&&content[1].steps[i][n]!==0">{{content[1].steps[i][n]}}</span>
           </td>
         </tr>
       </tbody>
@@ -32,7 +32,7 @@
         <tr v-for="(num,i) in content[0].boardNumbers" v-if="num">
           <td v-for="(item,n) in num">
             <span :class="{'import':content[0].steps[i][n]===0&&i<showSteps}">{{item}}</span>
-            <span class="import" :class="{'special2': content[0].steps[i][n] ===1}"  v-if="i<showSteps&&content[0].steps[i][n]!==0">{{content[0].steps[i][n]}}</span>
+            <span class="import" :class="{'special2': content[0].steps[i][n] ===1 || !(content[0].steps[i][n]===0&&i<showSteps)}"  v-if="i<showSteps&&content[0].steps[i][n]!==0">{{content[0].steps[i][n]}}</span>
           </td>
         </tr>
       </tbody>
