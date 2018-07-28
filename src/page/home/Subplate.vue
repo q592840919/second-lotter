@@ -9,10 +9,12 @@
           <div class="oprat">
             <button @click="initBoard(false)">生成副板</button>
           </div>
-          <div class="list" v-for="(item,i) in panel">
-            <span class="titles" :class="{'choose': chooseNum === i+1}" @click="viewBoard(item.value,i+1)">{{i+1}}</span>
-            <input :class="{'chooseer': chooseNum === i+1}" v-model="item.value" maxlength="10"/>
-            <span class="close" @click="close(item.value,i)">X</span>
+          <div class="list-all">
+            <div class="list" v-for="(item,i) in panel">
+              <span class="titles" :class="{'choose': chooseNum === i+1}" @click="viewBoard(item.value,i+1)">{{i+1}}</span>
+              <input :class="{'chooseer': chooseNum === i+1}" v-model="item.value" maxlength="10"/>
+              <span class="close" @click="close(item.value,i)">X</span>
+            </div>
           </div>
         </div>
       </div>
@@ -148,39 +150,43 @@ export default {
           .oprat{
             margin-bottom: 20px;
           }
-          .list{
-            .titles{
-              border: 1px solid #BCBCBC;
-              border-right: 0;
-              line-height: 27px;
-              display: inline-block;
-              vertical-align: middle;
-              text-align: center;
-              background-color: #d7f2ff;
-              width: 32px;
-              text-align: center;
-              cursor: pointer;
-            }
-            .choose{
-              background-color: #ffb100;
-              color: #FFFFFF;
-            }
-            input{
-              border-radius: 0;
-              letter-spacing: 2px;
-              font-size: 14px;
-              margin-left: -5px;
-              width: 150px;
-            }
-            .close{
-              display: none;
-              cursor: pointer;
-              font: 20px/20px sans-serif;
-              color: #009ddc;
-            }
-            &:hover{
-              .close{
+          .list-all{
+            height: 800px;
+            overflow: auto;
+            .list{
+              .titles{
+                border: 1px solid #BCBCBC;
+                border-right: 0;
+                line-height: 27px;
                 display: inline-block;
+                vertical-align: middle;
+                text-align: center;
+                background-color: #d7f2ff;
+                width: 32px;
+                text-align: center;
+                cursor: pointer;
+              }
+              .choose{
+                background-color: #ffb100;
+                color: #FFFFFF;
+              }
+              input{
+                border-radius: 0;
+                letter-spacing: 2px;
+                font-size: 14px;
+                margin-left: -5px;
+                width: 150px;
+              }
+              .close{
+                display: none;
+                cursor: pointer;
+                font: 20px/20px sans-serif;
+                color: #009ddc;
+              }
+              &:hover{
+                .close{
+                  display: inline-block;
+                }
               }
             }
           }

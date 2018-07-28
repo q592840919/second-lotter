@@ -4,10 +4,10 @@
       <div class="num-award">
         <span>中奖号码：</span>
         <input v-model="secDate.numbers" maxlength="5" @keyup.enter="addAward"/>
-        <button @click="addAward" >添加</button>
+        <!-- <button  class="buttons" @click="addAward" >添加</button> -->
 
         <div class="award-time">
-          上一期(<span class="reds">{{showNum}}</span>期数)中奖号码<span class="reds">{{lastAward}}</span>
+          上一期(<span class="reds">{{showNum}}</span>期数)中奖号码:<span class="reds">{{lastAward}}</span>
         </div>
       </div>
       <div class="operation">
@@ -64,6 +64,15 @@ export default {
       lastAward: ''
     };
   },
+  // filters: {
+  //   subFour (value) {
+  //     if(value){
+  //       return Number(value).toFixed(4);
+  //     }else{
+  //       return '';
+  //     }
+  //   }
+  // },
   mounted () {
     const vm = this;
     vm.init();
@@ -169,6 +178,10 @@ export default {
           font-size: 30px;
           height: 50px;
           color: red;
+        }
+        .buttons{
+          display: block;
+          margin: 10px 0 10px 200px;
         }
       }
       .award-time{
