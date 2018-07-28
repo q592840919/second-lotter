@@ -133,6 +133,8 @@ export default {
       }
       let rep = await getData.addAward(vm.now, `numbers=${vm.secDate.numbers}`);
       vm.secDate.numbers = '';
+      vm.lastAward = vm.secDate.numbers;
+      vm.showNum = vm.showNum + 1;
       vm.getPeriodList();
     },
     async editAward () {      //修改每期中奖号码
