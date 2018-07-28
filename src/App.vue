@@ -6,11 +6,20 @@
 </template>
 
 <script>
+import userFactory from '@/factory/userFactory';
 import Menu from '@/components/common/Menu';
 export default {
   name: 'App',
   components : {
     Menu
+  },
+  mounted () {
+    this.init();
+  },
+  methods: {
+    init () {
+      userFactory.isLogin();
+    }
   }
 };
 </script>

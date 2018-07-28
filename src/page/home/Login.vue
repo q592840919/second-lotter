@@ -13,16 +13,16 @@
         <div class="login-form">
             <form id="adminSubmit">
               <div class="form-line">
-                <span>账号：</span><input type="text" name="user" placeholder="账号" class="ad_email" autocomplete="off" id="ad_email">
+                <span>账号：</span><input v-model="user" type="text" name="user" placeholder="账号" class="ad_email" autocomplete="off" id="ad_email">
               </div>
               <div class="form-line">
-                <span>密码：</span><input type="password" name="password" placeholder="密码" class="ad_password" autocomplete="off" id="ad_password">
+                <span>密码：</span><input v-model="password" type="password"  @keyup.enter="login" name="password" placeholder="密码" class="ad_password" autocomplete="off" id="ad_password">
               </div>
               <div class="form-line form-line-span">
                 <span class="info"></span>
               </div>
               <div class="form-btn">
-                <input type="submit" value="登录" class="sign_in">
+                <input value="登录" class="sign_in" @click="login">
               </div>
             </form>
           </div>
@@ -33,11 +33,28 @@
 </template>
 
 <script>
+import getData from '@/service/getData';
 export default {
   name: 'market',
   data() {
     return {
+      user: '',
+      password: '',
     };
+  },
+  methods: {
+    async login () {
+      const vm = this,
+      params = $.param({
+        userName: vm.user,
+        password: vm.password,
+      }),
+       rep = await getData.login(params);
+       if(rep.data===1){
+         window.sessionStorage.setItem('isLogin', true);
+         vm.$router.push('/');
+       }
+    }
   }
 };
 </script>
@@ -101,10 +118,9 @@ export default {
           height: 32px;
           letter-spacing: 15px;
           line-height: 32px;
-          margin-bottom: 10px;
-          margin-top: 10px;
-          text-indent: 18px;
           width: 120px;
+          text-align: center;
+          padding-left: 20px;
         }
       }
     }

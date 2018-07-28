@@ -1,49 +1,48 @@
-html,body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: 'ArialMT', 'Arial';
   color: #333333;
 }
-ul{
+ul {
   margin: 0;
   padding: 0;
-  li{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
 }
-a{
+ul li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+a {
   text-decoration-line: none;
 }
-table{
+table {
   border: 1px solid #ABABAB;
   border-style: solid solid none solid;
   text-align: center;
-  tr{
-    th{
-      line-height: 35px;
-      border: 1px solid #ABABAB;
-      border-style: none solid solid none;
-      font-weight: 100;
-      &:last-child{
-        border-right: 0;
-      }
-    }
-    td{
-      background-color: #FFFEFF;
-      border: 1px solid #d6c2c3;
-      border-style: none solid solid none;
-      font-weight: 100;
-      line-height: 25px;
-      &:last-child{
-        border-right: 0;
-      }
-    }
-  }
 }
-input{
+table tr th {
+  line-height: 35px;
+  border: 1px solid #ABABAB;
+  border-style: none solid solid none;
+  font-weight: 100;
+}
+table tr th:last-child {
+  border-right: 0;
+}
+table tr td {
+  background-color: #FFFEFF;
+  border: 1px solid #d6c2c3;
+  border-style: none solid solid none;
+  font-weight: 100;
+  line-height: 25px;
+}
+table tr td:last-child {
+  border-right: 0;
+}
+input {
   line-height: 25px;
   padding-left: 10px;
   vertical-align: middle;
@@ -51,7 +50,7 @@ input{
   border-radius: 3px;
   outline: 0;
 }
-button{
+button {
   width: 104px;
   height: 30px;
   line-height: 30px;
@@ -64,9 +63,9 @@ button{
   vertical-align: middle;
   outline: 0;
 }
-.is-time{
+.is-time {
   color: #398fe5;
 }
-.marginr-15{
+.marginr-15 {
   margin-right: 15px;
 }

@@ -9,7 +9,7 @@
         </tr>
         <tr v-for="(period,n) in periods" v-show="n<during||120">
           <td class="ids" >{{n+1}}</td>
-          <td class="arr" v-if="period.arr" v-for="item in period.arr">{{item}}</td>
+          <td class="arr lotter" v-if="period.arr" v-for="item in period.arr"><span class="lotte">{{item}}</span></td>
           <td  v-if="!period.arr&&index<5" class="arr-null" v-for="(item,index) in defaultNum"></td>
           <td class="center" v-if="showCount" v-for="item in period.countNum">
             <span :class="{'lotte': item.count}">{{item.num}}</span>
@@ -56,7 +56,6 @@ export default {
   },
   methods: {
     init () {
-      console.log(this.periods);
     },
   }
 };
@@ -104,7 +103,7 @@ export default {
         }
       }
       .center{
-        background-color: #fdf9f8;
+        background-color: #FFFEFF;
       }
     }
     .vice{
@@ -117,9 +116,10 @@ export default {
         }
         td{
           cursor: pointer;
+          background-color: #FFFEFF;
           a{
             
-            color: #7d3c25;
+            color: #000000;
           }
         }
       }

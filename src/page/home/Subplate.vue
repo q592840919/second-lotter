@@ -21,7 +21,7 @@
         <table class="vice"  cellpadding="0" cellspacing="0">
           <tbody>
             <tr>
-              <th v-for="item in defaultNum" class="title-num">{{item}}</th>
+              <th v-for="item in vicePanel[1].name.split('')" class="title-num">{{item}}</th>
               <th class="choose">序号</th>
             </tr>
             <tr v-for="(vPanel,i) in vicePanel[1].numbers">
@@ -32,7 +32,7 @@
           
           <tbody>
             <tr>
-              <th v-for="item in defaultNum" class="title-num">{{item}}</th>
+              <th v-for="item in vicePanel[0].name.split('')" class="title-num">{{item}}</th>
               <th class="choose">序号</th>
             </tr>
             <tr v-for="(vPanel,i) in vicePanel[0].numbers">
@@ -58,7 +58,7 @@ export default {
       defaultNum: defaultNum,
       panel: [],       //左侧副板填入框
       chooseNum: 1,          //选择的左侧副板数字
-      vicePanel: [[{numbers:[]}],[{numbers:[]}]]         //右侧副板
+      vicePanel: [{name: '',numbers:[]},{name: '',numbers:[]}]         //右侧副板
     };
   },
   mounted () {

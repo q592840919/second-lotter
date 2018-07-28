@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="panel">
-      <Detail-panel :showSteps="showSteps" v-if="openStep" :content="content"/>
+      <Detail-panel :showSteps="showSteps" v-if="openStep" :content="content" :steps0="content[0].steps" :steps1="content[1].steps"/>
     </div>
   </div>
 </template>

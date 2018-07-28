@@ -20,8 +20,9 @@
         </tr>
         <tr v-for="(num,i) in content[1].boardNumbers" v-if="num">
           <td class="center" v-for="(item,n) in num">
-            <span :class="{'import':content[1].steps[i][n]===0&&i<showSteps}">{{item}}</span>
-            <span  class="import" :class="{'special': content[1].steps[i][n] ===1 || !(content[1].steps[i][n]===0&&i<showSteps)}" v-if="i<showSteps&&content[1].steps[i][n]!==0">{{content[1].steps[i][n]}}</span>
+            <span :class="{'import':steps1[i][n]===0&&i<showSteps}">{{item}}</span>
+            <span  class="import" :class="{'special': steps1[i][n] ===1 || !(steps1[i][n]===0&&i<showSteps)}" v-if="i<showSteps&&steps1[i][n]!==0">{{steps1[i][n]}}</span>
+            <span class="show-line" v-if="(i < showSteps)&&((steps1[i][n]!==0)&&(steps1[i + (5 - steps1[i][n])][n] === 5))"></span>
           </td>
         </tr>
       </tbody>
@@ -31,8 +32,13 @@
         </tr>
         <tr v-for="(num,i) in content[0].boardNumbers" v-if="num">
           <td v-for="(item,n) in num">
-            <span :class="{'import':content[0].steps[i][n]===0&&i<showSteps}">{{item}}</span>
-            <span class="import" :class="{'special2': content[0].steps[i][n] ===1 || !(content[0].steps[i][n]===0&&i<showSteps)}"  v-if="i<showSteps&&content[0].steps[i][n]!==0">{{content[0].steps[i][n]}}</span>
+            <span :class="{'import':steps0[i][n]===0&&i<showSteps}">{{item}}</span>
+            <span class="import" :class="{'special': steps0[i][n] ===1 || !(steps0[i][n]===0&&i<showSteps)}"  v-if="i<showSteps&&steps0[i][n]!==0">{{steps0[i][n]}}</span>
+            <span class="show-line" v-if="(i < showSteps)&&((steps0[i][n]!==0)&&(steps0[i + (5 - steps0[i][n])][n] === 5))"></span>
+            <!--((steps0[i][n]!==0)&&(steps0[i + (5 - steps0[i][n])][n] === 5))
+                数字必须不为0且 数字以5为基准，如果i+(5 - steps0[i][n])][n]，数字列i加上（5减去数字，比如当前数字2的话，
+                第10行，如果第13行为5，那么就可以加上标记）
+            -->
           </td>
         </tr>
       </tbody>
@@ -44,7 +50,7 @@
 import {stageNum, defaultNum} from '@/config/panelConfig';
 export default {
   name: 'detail-panel',
-  props: ['content','showSteps'],
+  props: ['content','showSteps','steps0','steps1'],
   data() {
     return {
       stageNum: stageNum,
@@ -112,38 +118,36 @@ export default {
             padding: 0 15px;
           }
           td{
-            color: #bd8b18;
             width: 55px;
+            position: relative;
             .import {
               display: inline-block;
               width: 20px;
               border-radius: 50px;
-              background-color: #fdf9f8;
+              background-color: #c94c58;
               height: 20px;
               line-height: 20px;
-              color: #000000;
-              box-shadow: 0 0 10px #038fff;
+              color: #FFFFFF;
             }
             .special{
-              color: #708b3a;
-              font-size: 11px;
-              width: 1px;
-              margin-left: 6px;
-              background-color: #fdf9f8;
-              box-shadow: none;
-            }
-            .special2{
               color: #ff1111;
               font-size: 11px;
               width: 1px;
               margin-left: 6px;
-              background-color: #ded3d7;
+              background-color: #fdf9f8;
               box-shadow: none;
             }
-            
+            .show-line{
+              position: absolute;
+              height: 26px;
+              display: block;
+              z-index: 10;
+              top: 0;
+              border-left: 2px solid blue;
+              left: 22px;
+            }
           }
             .center{
-              background-color: #fdf9f8;
             }
         }
       }
