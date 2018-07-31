@@ -3,10 +3,10 @@
     <div class="date">
       <span class="now-date">当前查看日期：</span>
       <span class="is-time marginr-15">{{now}}</span>
-      <span class="now-num ">当前查看数字：</span>
+      <!-- <span class="now-num ">当前查看数字：</span>
       <span class="marginr-15"></span>
       <span class="other">其他可查看数字：</span>
-      <span class=""></span>
+      <span class=""></span> -->
     </div>
     <div class="num">
       <p>副板列表</p>

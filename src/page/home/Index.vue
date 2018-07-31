@@ -7,7 +7,7 @@
         <!-- <button  class="buttons" @click="addAward" >添加</button> -->
 
         <div class="award-time">
-          上一期(<span class="reds">{{showNum}}</span>期数)中奖号码:<span class="reds">{{lastAward}}</span>
+          上一期中奖号码:<span class="lotte-title" v-for="item in lastAward">{{item}}</span>
         </div>
       </div>
       <div class="operation">
@@ -127,12 +127,12 @@ export default {
       })
     },
     async addAward () {        //增加每期中奖号码
-      const vm = this;
+      const vm = this,numbers = vm.secDate.numbers;
       if(vm.secDate.numbers.length!=5){
         return;
       }
-      let rep = await getData.addAward(vm.now, `numbers=${vm.secDate.numbers}`);
       vm.secDate.numbers = '';
+      let rep = await getData.addAward(vm.now, `numbers=${numbers}`);
       vm.lastAward = vm.secDate.numbers;
       vm.showNum = vm.showNum + 1;
       vm.getPeriodList();
@@ -191,6 +191,21 @@ export default {
         .reds{
           color: red;
           font-size: 25px;
+          margin: 10px;
+        }
+        .lotte-title{
+          display: inline-block;
+          width: 30px;
+          border-radius: 50px;
+          background-color: #fdf9f8;
+          height: 30px;
+          line-height: 30px;
+          font-size: 25px;
+          color: red;
+          -webkit-box-shadow: 0 0 10px #000;
+          box-shadow: 0 0 10px #000;
+          text-align: center;
+          margin: 0 5px;
         }
       }
       .operation{

@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       now: Date,
-      viceNum: 200,         //初始化左侧副板数
+      viceNum: 3000,         //初始化左侧副板数
       defaultNum: defaultNum,
       panel: [],       //左侧副板填入框
       chooseNum: 1,          //选择的左侧副板数字
@@ -162,7 +162,7 @@ export default {
                 vertical-align: middle;
                 text-align: center;
                 background-color: #d7f2ff;
-                width: 32px;
+                width: 55px;
                 text-align: center;
                 cursor: pointer;
               }
@@ -175,7 +175,7 @@ export default {
                 letter-spacing: 2px;
                 font-size: 14px;
                 margin-left: -5px;
-                width: 150px;
+                width: 120px;
               }
               .close{
                 display: none;
