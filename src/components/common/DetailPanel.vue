@@ -25,8 +25,8 @@
             <span class="show-line" v-if="(i < showSteps)&&(steps1[i][n]!==0)"
               :class="{
                 'blue': steps1[i + (5 - steps1[i][n])][n] === 5,
-                'yellow': steps1[i + (12 - steps1[i][n])][n] === 12,
-                'origin': steps1[i + (15 - steps1[i][n])][n] === 15,
+                'yellow': steps1[i + (13 - steps1[i][n])][n] === 13,
+                'origin': steps1[i + (16 - steps1[i][n])][n] === 16,
                 'red': steps1[i + (20 - steps1[i][n])][n] === 20
               }"
             ></span>
@@ -44,8 +44,8 @@
             <span class="show-line" v-if="(i < showSteps)&&(steps0[i][n]!==0)"
               :class="{
                 'blue': steps0[i + (5 - steps0[i][n])][n] === 5,
-                'yellow': steps0[i + (12 - steps0[i][n])][n] === 12,
-                'origin': steps0[i + (15 - steps0[i][n])][n] === 15,
+                'yellow': steps0[i + (13 - steps0[i][n])][n] === 13,
+                'origin': steps0[i + (16 - steps0[i][n])][n] === 16,
                 'red': steps0[i + (20 - steps0[i][n])][n] === 20
               }"
             ></span>
