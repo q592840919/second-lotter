@@ -74,6 +74,12 @@ export default {
       th{
         background-color: #fff6c2;
         padding: 0 12px;
+        &:nth-child(6){
+          border-right: 6px solid #f6ab19;
+        }
+        &:nth-child(16){
+          border-right: 6px solid #f6ab19;
+        }
       }
       .count-title{
         padding: 0 19px;
@@ -84,6 +90,12 @@ export default {
       }
       td{
         height: 26px;
+        &:nth-child(6){
+          border-right: 6px solid #f6ab19;
+        }
+        &:nth-child(16){
+          border-right: 6px solid #f6ab19;
+        }
         .lotte{
           display: inline-block;
           width: 20px;

@@ -12,7 +12,7 @@
           <div class="list-all">
             <div class="list" v-for="(item,i) in panel">
               <span class="titles" :class="{'choose': chooseNum === i+1}" @click="viewBoard(item.value,i+1)">{{i+1}}</span>
-              <input :class="{'chooseer': chooseNum === i+1}" v-model="item.value" maxlength="10"/>
+              <input :class="{'chooseer': chooseNum === i+1}" v-model="item.value" @keyup.enter="initBoard" maxlength="10"/>
               <span class="close" @click="close(item.value,i)">X</span>
             </div>
           </div>
@@ -141,7 +141,7 @@ export default {
       margin-top: 30px;
       .left{
         display: inline-block;
-        width: 220px;
+        width: 230px;
         margin-right: 50px;
         vertical-align: middle;
         .info{

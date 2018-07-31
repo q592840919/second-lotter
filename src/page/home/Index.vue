@@ -12,7 +12,7 @@
       </div>
       <div class="operation">
         <div class="oprat">
-          <input v-model="price" placeholder="输入每注金额(元)"/>
+          <input v-model="price" @keyup.enter="computePrice" placeholder="输入每注金额(元)"/>
           <button @click="computePrice">计算下注金额</button>
         </div>
         <div class="info">
@@ -25,6 +25,10 @@
               <tr class="value-mog">
                 <td>下注金额</td>
                 <td  v-for="item in money">{{item}}</td>
+              </tr>
+              <tr class="value-mog">
+                <td>下注金额/5</td>
+                <td  v-for="item in money"><span v-if="item">{{item/5}}</span></td>
               </tr>
               <tr>
                 <th>遗漏步数</th>
@@ -58,7 +62,7 @@ export default {
         numbers: '',
         dayId: ''
       },
-      price: 1,          //输入金额
+      price: sessionStorage.getItem('compPrice') || 1,          //输入金额
       defaultNum: defaultNum,
       showNum: null,
       lastAward: ''
@@ -93,6 +97,9 @@ export default {
       vm.periods = rep.data.periods;
       vm.scores = rep.data.scores;
       vm.parseNum(vm.periods);
+      if(sessionStorage.getItem('compPrice')){
+        vm.computePrice();
+      }
     },
     parseNum (obj) {          //计算主板累计数字
       if(!obj){
@@ -150,6 +157,7 @@ export default {
       };
       let rep = await getData.computePrice(vm.now, params);
       vm.money = rep.data;
+      sessionStorage.setItem('compPrice',vm.price);
     },
   }
 };
@@ -217,6 +225,7 @@ export default {
           table{
             td{
               line-height: 35px;
+              padding: 0 5px;
             }
             th{
               padding: 0 15px;
