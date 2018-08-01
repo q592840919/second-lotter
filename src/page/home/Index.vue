@@ -28,7 +28,7 @@
               </tr>
               <tr class="value-mog">
                 <td>下注金额/5</td>
-                <td  v-for="item in money"><span v-if="item">{{item/5}}</span></td>
+                <td  v-for="item in money"><span v-if="item">{{item/5 | subOne}}</span></td>
               </tr>
               <tr>
                 <th>遗漏步数</th>
@@ -68,15 +68,15 @@ export default {
       lastAward: ''
     };
   },
-  // filters: {
-  //   subFour (value) {
-  //     if(value){
-  //       return Number(value).toFixed(4);
-  //     }else{
-  //       return '';
-  //     }
-  //   }
-  // },
+  filters: {
+    subOne (value) {
+      if(value){
+        return Number(value).toFixed(1);
+      }else{
+        return '';
+      }
+    }
+  },
   mounted () {
     const vm = this;
     vm.init();
