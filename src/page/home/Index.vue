@@ -28,7 +28,7 @@
               </tr>
               <tr class="value-mog">
                 <td>下注金额/5</td>
-                <td  v-for="item in money"><span v-if="item">{{item/5 | subOne}}</span></td>
+                <td  v-for="item in money"><span v-if="item">{{item/5 | subFour}}</span></td>
               </tr>
               <tr>
                 <th>遗漏步数</th>
@@ -69,9 +69,9 @@ export default {
     };
   },
   filters: {
-    subOne (value) {
+    subFour (value) {
       if(value){
-        return Number(value).toFixed(1);
+        return Number(value).toFixed(4);
       }else{
         return '';
       }
