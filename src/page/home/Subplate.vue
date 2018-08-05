@@ -49,72 +49,82 @@
 </template>
 
 <script>
-import {defaultNum} from '@/config/panelConfig';
-import getData from '@/service/getData';
+import { defaultNum } from "@/config/panelConfig";
+import getData from "@/service/getData";
 export default {
-  name: 'subplate',
+  name: "subplate",
   data() {
     return {
       now: Date,
-      viceNum: 3000,         //初始化左侧副板数
+      viceNum: 3000, //初始化左侧副板数
       defaultNum: defaultNum,
-      panel: [],       //左侧副板填入框
-      chooseNum: 1,          //选择的左侧副板数字
-      vicePanel: [{name: '',numbers:[]},{name: '',numbers:[]}]         //右侧副板
+      panel: [], //左侧副板填入框
+      chooseNum: 1, //选择的左侧副板数字
+      vicePanel: [{ name: "", numbers: [] }, { name: "", numbers: [] }] //右侧副板
     };
   },
-  mounted () {
+  mounted() {
     const vm = this;
     vm.init();
   },
   methods: {
-    init () {
+    init() {
       const vm = this;
       vm.initVice();
     },
-    async initVice () {         //初始化左边副板填入框
+    async initVice() {
+      //初始化左边副板填入框
       const vm = this;
-      vm.now = vm.getFormatDate(new Date(),1);
+      vm.now = vm.getFormatDate(new Date(), 1);
       vm.panel = new Array(vm.viceNum);
-      for(let index = 0; index < vm.viceNum; index++){
+      for (let index = 0; index < vm.viceNum; index++) {
         vm.panel[index] = {
-          value: ''
+          value: ""
         };
       }
-      let i = 0, rep;
-      rep = await getData.boardListAll();     //获取左边的值
+      let i = 0,
+        rep;
+      rep = await getData.boardListAll(); //获取左边的值
 
-      for (;i<rep.data.length;i++) {
+      for (; i < rep.data.length; i++) {
         vm.panel[i] = {
           value: rep.data[i]
-          };
+        };
       }
-      if(vm.panel[0].value){
+      if (vm.panel[0].value) {
         vm.viewBoard(vm.panel[0].value);
       }
     },
-    async viewBoard (num,i){         //生成右侧副板
+    async viewBoard(num, i) {
+      //生成右侧副板
       let vm = this,
-       rep;
-      vm.chooseNum = i||vm.chooseNum;
-      if(!num){
+        rep;
+      vm.chooseNum = i || vm.chooseNum;
+      if (!num) {
         return;
-      }else{
+      } else {
         rep = await getData.viewBoard(num);
-        vm.vicePanel = rep.data[0] ? rep.data : [[{numbers:[]}],[{numbers:[]}]];
+        vm.vicePanel = rep.data[0]
+          ? rep.data
+          : [[{ numbers: [] }], [{ numbers: [] }]];
       }
     },
-    async initBoard (){         //生成右侧副板
+    async initBoard() {
+      //生成右侧副板
       const vm = this,
-      rep = await getData.board(document.querySelector('.chooseer').value);
-        vm.viewBoard (document.querySelector('.chooseer').value);
+        rep = await getData.board2(document.querySelector(".chooseer").value);
+      if (rep.data.success) {
+        vm.viewBoard(document.querySelector(".chooseer").value);
+      } else {
+        alert(rep.data.errorMsg);
+      }
     },
-    async close (num,i){
+    async close(num, i) {
       const vm = this;
-      if(!num){
+      if (!num) {
         return;
       }
-      vm.$set(vm.panel,i,{value: ''});
+      vm.$set(vm.panel, i, { value: "" });
       const rep = await getData.deleteBoard(num);
     }
   }
@@ -123,98 +133,98 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
-  .subplate {
-    width: 1200px;
-    margin: auto;
-      .choose{
-        background-color: #ffb100;
-        color: #FFFFFF;
-      }
-      .title-num{
-        color: #3d61cf;
-        background-color: #fff6f5;
-      }
-    .init{
-      margin-top: 30px;
-    }
-    .content{
-      margin-top: 30px;
-      .left{
-        display: inline-block;
-        width: 230px;
-        margin-right: 50px;
-        vertical-align: middle;
-        .info{
-          padding-top: 20px;
-          border-top: 1px dashed #CCCCCC;
-          .oprat{
-            margin-bottom: 20px;
-          }
-          .list-all{
-            height: 800px;
-            overflow: auto;
-            .list{
-              .titles{
-                border: 1px solid #BCBCBC;
-                border-right: 0;
-                line-height: 27px;
+.subplate {
+  width: 1200px;
+  margin: auto;
+  .choose {
+    background-color: #ffb100;
+    color: #ffffff;
+  }
+  .title-num {
+    color: #3d61cf;
+    background-color: #fff6f5;
+  }
+  .init {
+    margin-top: 30px;
+  }
+  .content {
+    margin-top: 30px;
+    .left {
+      display: inline-block;
+      width: 230px;
+      margin-right: 50px;
+      vertical-align: middle;
+      .info {
+        padding-top: 20px;
+        border-top: 1px dashed #cccccc;
+        .oprat {
+          margin-bottom: 20px;
+        }
+        .list-all {
+          height: 800px;
+          overflow: auto;
+          .list {
+            .titles {
+              border: 1px solid #bcbcbc;
+              border-right: 0;
+              line-height: 27px;
+              display: inline-block;
+              vertical-align: middle;
+              text-align: center;
+              background-color: #d7f2ff;
+              width: 55px;
+              text-align: center;
+              cursor: pointer;
+            }
+            .choose {
+              background-color: #ffb100;
+              color: #ffffff;
+            }
+            input {
+              border-radius: 0;
+              letter-spacing: 2px;
+              font-size: 14px;
+              margin-left: -5px;
+              width: 120px;
+            }
+            .close {
+              display: none;
+              cursor: pointer;
+              font: 20px/20px sans-serif;
+              color: #009ddc;
+            }
+            &:hover {
+              .close {
                 display: inline-block;
-                vertical-align: middle;
-                text-align: center;
-                background-color: #d7f2ff;
-                width: 55px;
-                text-align: center;
-                cursor: pointer;
-              }
-              .choose{
-                background-color: #ffb100;
-                color: #FFFFFF;
-              }
-              input{
-                border-radius: 0;
-                letter-spacing: 2px;
-                font-size: 14px;
-                margin-left: -5px;
-                width: 120px;
-              }
-              .close{
-                display: none;
-                cursor: pointer;
-                font: 20px/20px sans-serif;
-                color: #009ddc;
-              }
-              &:hover{
-                .close{
-                  display: inline-block;
-                }
               }
             }
           }
         }
       }
-      .right{
-        display: inline-block;
-        vertical-align: top;
-        padding-top: 20px;
-        border-top: 1px dashed #CCCCCC;
-        .title{
-          text-align: center;
-          margin-bottom: 20px;
+    }
+    .right {
+      display: inline-block;
+      vertical-align: top;
+      padding-top: 20px;
+      border-top: 1px dashed #cccccc;
+      .title {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .vice {
+        width: 792px;
+        tbody {
+          display: inline-block;
         }
-        .vice{
-          width: 792px;
-          tbody{
-            display: inline-block;
-          }
-          th{
-            width: 35px;
-          }
-          .panels{
-            display: inline-block;
-            vertical-align: middle;
-          }
+        th {
+          width: 35px;
+        }
+        .panels {
+          display: inline-block;
+          vertical-align: middle;
         }
       }
     }
   }
+}
 </style>

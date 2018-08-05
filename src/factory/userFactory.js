@@ -1,7 +1,6 @@
+import getData from '@/service/getData';
 export default {
-    isLogin () {
-        if(!window.sessionStorage.getItem('isLogin')){
-            location.href = '/index.html#/login';
-        }
+    isLogin() {
+        getData.checkLogin();
     }
 }

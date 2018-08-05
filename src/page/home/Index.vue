@@ -9,6 +9,11 @@
         <div class="award-time">
           上一期中奖号码:<span class="lotte-title" v-for="item in lastAward">{{item}}</span>
         </div>
+        <div class="edit-num">
+          <input placeholder="期数" maxlength="3"  @keyup.enter="editAward" v-model="editParam.periodId" class="dates"/>
+          <input placeholder="中奖号码" maxlength="5"  @keyup.enter="editAward" v-model="editParam.numbers"  class="nums"/>
+          <button @click="editAward">修改中奖号码</button>
+        </div>
       </div>
       <div class="operation">
         <div class="oprat">
@@ -30,15 +35,12 @@
                 <td>下注金额/5</td>
                 <td  v-for="item in money"><span v-if="item">{{item/5 | subFour}}</span></td>
               </tr>
-              <tr>
-                <th>遗漏步数</th>
-                <th v-for="item in scores">{{item}}</th>
-              </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
+      <a :href="'/index.html#/detail/'+now" class="jump">副板详情</a>
     <div class="main">
       <Main-panel :showCount="true" :periods="periods" :now="getFormatDate(new Date(),1)"/>
     </div>
@@ -46,38 +48,44 @@
 </template>
 
 <script>
-import {defaultNum} from '@/config/panelConfig';
-import MainPanel from '@/components/common/MainPanel';
-import getData from '@/service/getData';
+import { defaultNum } from "@/config/panelConfig";
+import MainPanel from "@/components/common/MainPanel";
+import getData from "@/service/getData";
 export default {
-  name: 'index',
+  name: "index",
   data() {
     return {
       now: Date,
-      periods: Object,  //主板副板返回值
-      scores: Array,    //下注分数
-      money: [],        //下注金额
-      secDate: {        //主板副板参数
-        periodId: '',
-        numbers: '',
-        dayId: ''
+      periods: Object, //主板副板返回值
+      scores: Array, //下注分数
+      money: [], //下注金额
+      secDate: {
+        //主板副板参数
+        numbers: "",
+        dayId: ""
       },
-      price: sessionStorage.getItem('compPrice') || 1,          //输入金额
+      price: sessionStorage.getItem("compPrice") || 1, //输入金额
       defaultNum: defaultNum,
       showNum: null,
-      lastAward: ''
+      lastAward: "",
+      editParam: {
+        //主板副板参数
+        periodId: "",
+        numbers: "",
+        dayId: ""
+      }
     };
   },
   filters: {
-    subFour (value) {
-      if(value){
+    subFour(value) {
+      if (value) {
         return Number(value).toFixed(4);
-      }else{
-        return '';
+      } else {
+        return "";
       }
     }
   },
-  mounted () {
+  mounted() {
     const vm = this;
     vm.init();
   },
@@ -85,164 +93,186 @@ export default {
     MainPanel
   },
   methods: {
-    init () {
+    init() {
       const vm = this;
-      vm.now = vm.secDate.dayId = vm.getFormatDate(new Date(),1);
+      vm.now = vm.secDate.dayId = vm.editParam.dayId = vm.getFormatDate(
+        new Date(),
+        1
+      );
       vm.money = new Array(10);
       vm.getPeriodList();
     },
-    async getPeriodList () {          //获取主板信息
+    async getPeriodList() {
+      //获取主板信息
       const vm = this,
-      rep = await getData.periodList(vm.now);
+        rep = await getData.periodList(vm.now);
       vm.periods = rep.data.periods;
       vm.scores = rep.data.scores;
       vm.parseNum(vm.periods);
-      if(sessionStorage.getItem('compPrice')){
+      if (sessionStorage.getItem("compPrice")) {
         vm.computePrice();
       }
     },
-    parseNum (obj) {          //计算主板累计数字
-      if(!obj){
+    parseNum(obj) {
+      //计算主板累计数字
+      if (!obj) {
         return;
       }
       const vm = this;
-      obj.forEach((period,index) => {
+      obj.forEach((period, index) => {
         period.countNum = new Array(10);
-        period.arr = period.numbers?period.numbers.split(''): null;
-        if(!period.numbers&&!vm.showNum){
+        period.arr = period.numbers ? period.numbers.split("") : null;
+        if (!period.numbers && !vm.showNum) {
           vm.showNum = index;
-          vm.lastAward = obj[index-1].numbers;
+          vm.lastAward = obj[index - 1].numbers;
         }
-        if(period.arr){
+        if (period.arr) {
           period.arr.length = 5;
         }
-        let i = 0,n = 0;
-        for (;i<period.countNum.length;i++) {
-          if(period.numbers){
-            period.arr.forEach((item) => {
-              if(parseInt(item) === i){
+        let i = 0,
+          n = 0;
+        for (; i < period.countNum.length; i++) {
+          if (period.numbers) {
+            period.arr.forEach(item => {
+              if (parseInt(item) === i) {
                 period.countNum[i] = {
                   num: item,
                   count: ++n
                 };
               }
-            })
+            });
           }
           n = 0;
-          period.countNum[i] = period.countNum[i] ? period.countNum[i] : {num: ''};
+          period.countNum[i] = period.countNum[i]
+            ? period.countNum[i]
+            : { num: "" };
         }
-      })
+      });
     },
-    async addAward () {        //增加每期中奖号码
-      const vm = this,numbers = vm.secDate.numbers;
-      if(vm.secDate.numbers.length!=5){
+    async addAward() {
+      //增加每期中奖号码
+      const vm = this,
+        numbers = vm.secDate.numbers;
+      if (vm.secDate.numbers.length != 5) {
         return;
       }
-      vm.secDate.numbers = '';
+      vm.secDate.numbers = "";
       let rep = await getData.addAward(vm.now, `numbers=${numbers}`);
       vm.lastAward = vm.secDate.numbers;
       vm.showNum = vm.showNum + 1;
       vm.getPeriodList();
     },
-    async editAward () {      //修改每期中奖号码
-      const vm = this;
-      let rep = await getData.addAward(vm.numbers);
+    async editAward() {
+      //修改每期中奖号码
+      const vm = this,
+        rep = await getData.editAward(vm.editParam);
       vm.getPeriodList();
     },
-    async computePrice () {     //计算下注金额
+    async computePrice() {
+      //计算下注金额
       const vm = this,
-      params = {
-        price: vm.price,
-        steps: `${vm.scores.join()}`
-      };
+        params = {
+          price: vm.price,
+          steps: `${vm.scores.join()}`
+        };
       let rep = await getData.computePrice(vm.now, params);
       vm.money = rep.data;
-      sessionStorage.setItem('compPrice',vm.price);
-    },
+      sessionStorage.setItem("compPrice", vm.price);
+    }
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
-  .index {
-    width: 1300px;
-    margin: auto;
-    input{
-      margin-right: 10px;
+.index {
+  width: 1300px;
+  margin: auto;
+  input {
+    margin-right: 10px;
+  }
+  .time {
+    font-size: 18px;
+    margin: 20px auto 0;
+    display: table;
+    width: 1180px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ababab;
+    > div {
     }
-    .time {
-      font-size: 18px;
-      margin: 20px auto;
-      display: table;
-      width: 1180px;
-      padding-bottom: 30px;
-      border-bottom: 1px dashed #ABABAB;
-      >div{
+    .num-award {
+      input {
+        width: 200px;
+        letter-spacing: 5px;
+        font-size: 30px;
+        height: 50px;
+        color: red;
+      }
+      .buttons {
+        display: block;
+        margin: 10px 0 10px 200px;
+      }
+    }
+    .award-time {
+      margin: 20px 0;
+      padding-top: 10px;
+      border-top: 1px dashed #ababab;
+      .reds {
+        color: red;
+        font-size: 25px;
+        margin: 10px;
+      }
+      .lotte-title {
         display: inline-block;
+        width: 30px;
+        border-radius: 50px;
+        background-color: #fdf9f8;
+        height: 30px;
+        line-height: 30px;
+        font-size: 25px;
+        color: red;
+        -webkit-box-shadow: 0 0 10px #000;
+        box-shadow: 0 0 10px #000;
+        text-align: center;
+        margin: 0 5px;
       }
-      .num-award{
-        input{
-          width: 200px;
-          letter-spacing: 5px;
-          font-size: 30px;
-          height: 50px;
-          color: red;
-        }
-        .buttons{
-          display: block;
-          margin: 10px 0 10px 200px;
-        }
-      }
-      .award-time{
-        margin: 20px 0;
-        .reds{
-          color: red;
-          font-size: 25px;
-          margin: 10px;
-        }
-        .lotte-title{
-          display: inline-block;
-          width: 30px;
-          border-radius: 50px;
-          background-color: #fdf9f8;
-          height: 30px;
-          line-height: 30px;
-          font-size: 25px;
-          color: red;
-          -webkit-box-shadow: 0 0 10px #000;
-          box-shadow: 0 0 10px #000;
-          text-align: center;
-          margin: 0 5px;
-        }
-      }
-      .operation{
-        text-align: right;
-        float: right;
-        .info{
-          float: right;
-          margin: 10px 0;
-          table{
-            td{
-              line-height: 35px;
-              padding: 0 5px;
-            }
-            th{
-              padding: 0 15px;
-            }
+    }
+    .edit-num {
+      padding-top: 10px;
+      border-top: 1px dashed #ababab;
+    }
+    .operation {
+      padding-top: 10px;
+      border-top: 1px dashed #ababab;
+      text-align: left;
+      margin-top: 20px;
+      .info {
+        margin: 10px 0;
+        table {
+          td {
+            line-height: 35px;
+            padding: 0 5px;
+          }
+          th {
+            padding: 0 15px;
           }
         }
       }
     }
-    .lotte-time{
-      margin-top: 20px;
-      .lot-num{
-        color: red;
-        margin-right: 30px;
-      }
-    }
-    .main {
-      margin-top: 60px;
+  }
+  .lotte-time {
+    margin-top: 20px;
+    .lot-num {
+      color: red;
+      margin-right: 30px;
     }
   }
+  .jump {
+    margin: 10px 0 10px 60px;
+    color: #009ddc;
+    display: block;
+  }
+  .main {
+  }
+}
 </style>

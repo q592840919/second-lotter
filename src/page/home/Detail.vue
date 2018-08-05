@@ -11,8 +11,8 @@
     <div class="num">
       <p>副板列表</p>
       <div class="list">
-        <div class="every-num" v-for="(item,i) in panels" @click="changeNum(i)">
-          <span v-if="item" class="ids" :class="{'choose': chooseNum === i}">{{i+1}}</span>
+        <div class="every-num" v-if="stepsLists[i]" v-for="(item,i) in panels" @click="changeNum(i)">
+          <span v-if="item" class="ids" :class="{'choose': chooseNum === i}" :style="{'background-color':stepsLists[i].color}">{{i+1}}</span>
           <span v-if="item" class="value">{{item}}</span>
         </div>
       </div>
@@ -24,21 +24,22 @@
 </template>
 
 <script>
-import DetailPanel from '@/components/common/DetailPanel'
-import getData from '@/service/getData';
+import DetailPanel from "@/components/common/DetailPanel";
+import getData from "@/service/getData";
 export default {
-  name: 'detail',
+  name: "detail",
   data() {
     return {
       now: Date,
-      panels: Array,     //副板列表
-      content: Array,      //副板详情参数
+      panels: Array, //副板列表
+      content: Array, //副板详情参数
       chooseNum: 0,
       showSteps: 120,
-      openStep: false
+      openStep: false,
+      stepsLists: ""
     };
   },
-  mounted () {
+  mounted() {
     const vm = this;
     vm.init();
   },
@@ -46,38 +47,62 @@ export default {
     DetailPanel
   },
   methods: {
-    init () {
+    init() {
       const vm = this;
-      vm.now = vm.$route.params.dayId || vm.getFormatDate(new Date(),1);
+      vm.now = vm.$route.params.dayId || vm.getFormatDate(new Date(), 1);
       vm.getBoardList(vm);
     },
 
-    async getBoardList () {       //生成上面副板列表
-      const vm = this,rep = await getData.boardListAll();     //获取左边的值
-      vm.panels= new Array(rep.data.length);
+    async getBoardList() {
+      //生成上面副板列表
+      const vm = this,
+        rep = await getData.boardListAll(); //获取左边的值
+      vm.panels = new Array(rep.data.length);
       vm.panels = rep.data;
       vm.getBoardDetail(vm.panels[0]);
+      vm.checkStepList();
     },
-    changeNum (i) {       //选择数字生成副板
+    changeNum(i) {
+      //选择数字生成副板
       const vm = this;
       vm.chooseNum = i;
-      if(vm.panels[i]){
+      if (vm.panels[i]) {
         vm.getBoardDetail(vm.panels[i]);
       }
     },
-    async getBoardDetail (id) {       //生成下面副板详情
+    async getBoardDetail(id) {
+      //生成下面副板详情
       const vm = this,
-      rep = await getData.boardDetail(id,vm.now);
+        rep = await getData.boardDetail(id, vm.now);
       vm.content = rep.data;
       vm.content[0].arr = [];
-      vm.content[0].numbers.forEach((cent,index) => {
-        vm.content[0].arr[index] = cent?cent.split(''): null;
-        if(cent){
+      vm.content[0].numbers.forEach((cent, index) => {
+        vm.content[0].arr[index] = cent ? cent.split("") : null;
+        if (cent) {
           vm.showSteps = index;
-        } 
+        }
       });
       vm.showSteps = vm.showSteps + 2;
       vm.openStep = true;
+    },
+    async checkStepList() {
+      const vm = this;
+      let rep = await getData.checkStepList(vm.now);
+      vm.stepsLists = rep.data.data;
+      //计算最大值
+      vm.stepsLists.forEach((item, i) => {
+        item.maxValue = Math.max.apply(
+          null,
+          item.steps[0].concat(item.steps[0])
+        );
+        if (19 < item.maxValue) {
+          item.color = "red";
+        } else if (15 < item.maxValue) {
+          item.color = "#ffe600";
+        } else if (12 < item.maxValue) {
+          item.color = "#56ff00";
+        }
+      });
     }
   }
 };
@@ -88,25 +113,24 @@ export default {
 .detail {
   width: 1400px;
   margin: auto;
-  .date{
+  .date {
     margin-top: 30px;
-    .now-date{
-
+    .now-date {
     }
   }
-  .num{
+  .num {
     padding-bottom: 20px;
-    border-bottom: 1px dashed #DCDCDC;
-    .list{
+    border-bottom: 1px dashed #dcdcdc;
+    .list {
       font-size: 0;
-      .every-num{
+      .every-num {
         display: inline-block;
         font-size: 16px;
-        border: 1px solid #ABABAB;
+        border: 1px solid #ababab;
         line-height: 23px;
         margin: 0 10px 10px 0;
-        .ids{
-          border-right: 1px solid #ABABAB;
+        .ids {
+          border-right: 1px solid #ababab;
           height: 23px;
           display: inline-block;
           width: 32px;
@@ -114,31 +138,40 @@ export default {
           background-color: #d7f2ff;
           cursor: pointer;
         }
-        .choose{
+        .choose {
           background-color: #ffb100;
-          color: #FFFFFF;
+          color: #ffffff;
         }
-        .value{
+        .yellow {
+          background-color: #56ff00;
+        }
+        .origin {
+          background-color: #ffe600;
+        }
+        .red {
+          background-color: red;
+        }
+        .value {
           letter-spacing: 2px;
           width: 110px;
           text-align: center;
         }
       }
-      &>span{
+      & > span {
         font-size: 16px;
-        border: 1px solid #ABABAB;
+        border: 1px solid #ababab;
         border-right: 0;
         padding: 5px 10px;
         display: inline-block;
         text-align: center;
         cursor: pointer;
-        &:last-child{
-          border-right: 1px solid #ABABAB;
+        &:last-child {
+          border-right: 1px solid #ababab;
         }
       }
     }
   }
-  .panel{
+  .panel {
     margin-top: 30px;
   }
 }

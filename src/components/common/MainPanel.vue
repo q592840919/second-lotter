@@ -40,105 +40,103 @@
 </template>
 
 <script>
-import {stageNum, defaultNum} from '@/config/panelConfig';
+import { stageNum, defaultNum } from "@/config/panelConfig";
 export default {
-  name: 'main-panel',
-  props: ['periods','showCount','during','now'],
+  name: "main-panel",
+  props: ["periods", "showCount", "during", "now"],
   data() {
     return {
-      stageNum: stageNum, 
+      stageNum: stageNum,
       defaultNum: defaultNum
     };
   },
-  mounted () {
+  mounted() {
     const vm = this;
     vm.init();
   },
   methods: {
-    init () {
-    },
+    init() {}
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
-  .main-panel {
-    text-align: center;
-    font-size: 0;
-    .main{
-      font-size: 18px;
-      border-right: 0;
-      display: inline-block;
-      vertical-align: top;
-      th{
-        background-color: #fff6c2;
-        padding: 0 12px;
-        &:nth-child(6){
-          border-right: 6px solid #f6ab19;
-        }
-        &:nth-child(16){
-          border-right: 6px solid #f6ab19;
-        }
+.main-panel {
+  text-align: center;
+  font-size: 0;
+  .main {
+    font-size: 18px;
+    border-right: 0;
+    display: inline-block;
+    vertical-align: top;
+    th {
+      background-color: #fff6c2;
+      padding: 0 12px;
+      &:nth-child(6) {
+        border-right: 6px solid #f6ab19;
       }
-      .count-title{
-        padding: 0 19px;
-      }
-      .count{
-        padding: 0 19px;
-        background-color: #c2ffe6;
-      }
-      td{
-        height: 26px;
-        &:nth-child(6){
-          border-right: 6px solid #f6ab19;
-        }
-        &:nth-child(16){
-          border-right: 6px solid #f6ab19;
-        }
-        .lotte{
-          display: inline-block;
-          width: 20px;
-          border-radius: 50px;
-          background-color: #fdf9f8;
-          height: 20px;
-          line-height: 20px;
-          color: #000000;
-          box-shadow: 0 0 10px #038fff;
-        }
-        .cout{
-          color: #708b3a;
-          display: inline-block;
-          margin-left: 7px;
-          margin-bottom: -3px;
-          font-size: 11px;
-        }
-      }
-      .center{
-        background-color: #FFFEFF;
+      &:nth-child(16) {
+        border-right: 6px solid #f6ab19;
       }
     }
-    .vice{
-      font-size: 18px;
-      display: inline-block;
-      tr{
-        th{
-          background-color: #d7f2ff;
-          padding: 0 15px;
-        }
-        td{
-          cursor: pointer;
-          background-color: #FFFEFF;
-          a{
-            
-            color: #000000;
-          }
-        }
+    .count-title {
+      padding: 0 19px;
+    }
+    .count {
+      padding: 0 19px;
+      background-color: #c2ffe6;
+    }
+    td {
+      height: 26px;
+      &:nth-child(6) {
+        border-right: 6px solid #f6ab19;
       }
-      .scores-it{
-        width: 42px;
-        height: 26px;
+      &:nth-child(16) {
+        border-right: 6px solid #f6ab19;
       }
+      .lotte {
+        display: inline-block;
+        width: 20px;
+        border-radius: 50px;
+        background-color: #fdf9f8;
+        height: 20px;
+        line-height: 20px;
+        color: #000000;
+        box-shadow: 0 0 10px #038fff;
+      }
+      .cout {
+        color: #708b3a;
+        display: inline-block;
+        margin-left: 7px;
+        margin-bottom: -3px;
+        font-size: 11px;
+      }
+    }
+    .center {
+      background-color: #fffeff;
     }
   }
+  .vice {
+    font-size: 18px;
+    display: inline-block;
+    tr {
+      th {
+        background-color: #d7f2ff;
+        padding: 0 15px;
+      }
+      td {
+        cursor: pointer;
+        background-color: #fffeff;
+        a {
+          color: #000000;
+        }
+      }
+    }
+    .scores-it {
+      width: 42px;
+      height: 26px;
+    }
+  }
+}
 </style>

@@ -33,27 +33,26 @@
 </template>
 
 <script>
-import getData from '@/service/getData';
+import getData from "@/service/getData";
 export default {
-  name: 'market',
+  name: "market",
   data() {
     return {
-      user: '',
-      password: '',
+      user: "",
+      password: ""
     };
   },
   methods: {
-    async login () {
+    async login() {
       const vm = this,
-      params = $.param({
-        userName: vm.user,
-        password: vm.password,
-      }),
-       rep = await getData.login(params);
-       if(rep.data===1){
-         window.sessionStorage.setItem('isLogin', true);
-         vm.$router.push('/');
-       }
+        params = $.param({
+          userName: vm.user,
+          password: vm.password
+        }),
+        rep = await getData.login(params);
+      if (rep.data === 1) {
+        vm.$router.push("/");
+      }
     }
   }
 };
@@ -62,7 +61,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
 .login {
-  .tip-login-in{
+  .tip-login-in {
     background: #fff none repeat scroll 0 0;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -73,26 +72,26 @@ export default {
     position: fixed;
     top: 30%;
     width: 400px;
-    .tip-header{
+    .tip-header {
       border-bottom: 1px solid #ccc;
       height: 45px;
       width: 100%;
-      .tip-title{
+      .tip-title {
         color: #555;
         float: left;
         font-size: 18px;
         margin: 10px 0 0 15px;
       }
     }
-    .tip-content{
+    .tip-content {
       font-size: 18px;
       margin: 20px 0 0;
       text-align: center;
-      .login-form{
+      .login-form {
         margin-top: 10px;
       }
-      .form-line{
-        input{
+      .form-line {
+        input {
           box-sizing: border-box;
           width: 70%;
           height: 42px;
@@ -102,11 +101,11 @@ export default {
           font-size: 16px;
         }
       }
-      .form-btn{
+      .form-btn {
         background-color: #eeeeee;
         width: 100%;
         margin-top: 15px;
-        input{
+        input {
           background-color: #337ab7;
           border-color: #337ab7;
           border-radius: 5px;

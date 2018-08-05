@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import DatePicker from 'vue2-datepicker';
-import MainPanel from '@/components/common/MainPanel'
-import getData from '@/service/getData';
+import DatePicker from "vue2-datepicker";
+import MainPanel from "@/components/common/MainPanel";
+import getData from "@/service/getData";
 export default {
-  name: 'history',
+  name: "history",
   data() {
     return {
       time: new Date(),
@@ -30,24 +30,26 @@ export default {
     DatePicker,
     MainPanel
   },
-   mounted () {
+  mounted() {
     const vm = this;
     vm.init();
   },
   methods: {
-    init () {
+    init() {
       const vm = this;
-      vm.now = vm.getFormatDate(new Date(),1);
+      vm.now = vm.getFormatDate(new Date(), 1);
       vm.getPeriodList();
     },
-    async getPeriodList (dayid) {          //获取主板信息
-      let vm = this,rep;
-      vm.now = dayid ? vm.getFormatDate(dayid,1) : vm.now;
+    async getPeriodList(dayid) {
+      //获取主板信息
+      let vm = this,
+        rep;
+      vm.now = dayid ? vm.getFormatDate(dayid, 1) : vm.now;
       rep = await getData.periodList(vm.now);
       vm.periods = rep.data.periods;
-      vm.periods.forEach((period,index) => {
-        period.arr = period.numbers?period.numbers.split(''): null;
-        if(period.arr){
+      vm.periods.forEach((period, index) => {
+        period.arr = period.numbers ? period.numbers.split("") : null;
+        if (period.arr) {
           period.arr.length = 5;
         }
       });
@@ -62,13 +64,13 @@ export default {
   width: 1200px;
   margin: 30px auto 0;
   text-align: center;
-  .date{
+  .date {
     padding-bottom: 20px;
     margin: auto;
     width: 1200px;
     margin-bottom: 30px;
-    border-bottom: 1px dashed #DCDCDC;
-    .time-num{
+    border-bottom: 1px dashed #dcdcdc;
+    .time-num {
       margin-left: 30px;
     }
   }

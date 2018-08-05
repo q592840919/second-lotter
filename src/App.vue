@@ -6,18 +6,19 @@
 </template>
 
 <script>
-import userFactory from '@/factory/userFactory';
-import Menu from '@/components/common/Menu';
+import userFactory from "@/factory/userFactory";
+import interceptors from "@/factory/interceptors";
+import Menu from "@/components/common/Menu";
 export default {
-  name: 'App',
-  components : {
+  name: "App",
+  components: {
     Menu
   },
-  mounted () {
+  mounted() {
     this.init();
   },
   methods: {
-    init () {
+    init() {
       userFactory.isLogin();
     }
   }
@@ -25,7 +26,7 @@ export default {
 </script>
 
 <style lang="less">
-@import './style/common.less';
+@import "./style/common.less";
 #app {
 }
 </style>
