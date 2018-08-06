@@ -83,17 +83,26 @@ export default {
           value: ""
         };
       }
+      // let i = 0,
+      //   response = await getData.boardListAll(vm.now),
+      //   rep;
+      // rep = response.data; //获取左边的值
+
+      // for (; i < rep.data.length; i++) {
+      //   vm.panel[i] = {
+      //     value: rep.data[i].value
+      //   };
+      // }
+
       let i = 0,
-        response = await getData.boardListAll(vm.now),
         rep;
-      rep = response.data; //获取左边的值
+      rep = await getData.boardAll(); //获取左边的值
 
       for (; i < rep.data.length; i++) {
         vm.panel[i] = {
-          value: rep.data[i].value
+          value: rep.data[i]
         };
       }
-
       vm.openVice = true;
       if (vm.panel[0].value) {
         vm.viewBoard(vm.panel[0].value);

@@ -38,6 +38,10 @@ export default {
     boardListAll(dayId) {
         return axios.get(`/board/list/${dayId}`);
     },
+    //返回所有生成副板数字
+    boardAll() {
+        return axios.get(`/board/list/`);
+    },
     //生成副板
     viewBoard(dayId) {
         return axios.get(`/board/${dayId}`);
