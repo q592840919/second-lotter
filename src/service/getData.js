@@ -48,5 +48,8 @@ export default {
     },
     checkLogin() {
         return axios.get(`/login/status`);
+    },
+    logout() {
+      return axios.post(`/logout`);
     }
 }
