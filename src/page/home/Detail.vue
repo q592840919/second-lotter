@@ -13,7 +13,7 @@
       <div class="list">
         <div class="every-num" v-if="stepsLists[i]" v-for="(item,i) in panels" @click="changeNum(i)">
           <span v-if="item" class="ids" :class="{'choose': chooseNum === i}" :style="{'background-color':stepsLists[i].color}">{{i+1}}</span>
-          <span v-if="item" class="value">{{item}}</span>
+          <span v-if="item" class="value">{{item.value}}</span>
         </div>
       </div>
     </div>
@@ -56,10 +56,12 @@ export default {
     async getBoardList() {
       //生成上面副板列表
       const vm = this,
-        rep = await getData.boardListAll(); //获取左边的值
+        response = await getData.boardListAll(vm.now),
+        rep = response.data;
+      console.log(rep);
       vm.panels = new Array(rep.data.length);
       vm.panels = rep.data;
-      vm.getBoardDetail(vm.panels[0]);
+      vm.getBoardDetail(vm.panels[0].value);
       vm.checkStepList();
     },
     changeNum(i) {
@@ -67,7 +69,7 @@ export default {
       const vm = this;
       vm.chooseNum = i;
       if (vm.panels[i]) {
-        vm.getBoardDetail(vm.panels[i]);
+        vm.getBoardDetail(vm.panels[i].value);
       }
     },
     async getBoardDetail(id) {
@@ -87,7 +89,7 @@ export default {
     },
     async checkStepList() {
       const vm = this;
-      let rep = await getData.checkStepList(vm.now);
+      let rep = await getData.boardListAll(vm.now);
       vm.stepsLists = rep.data.data;
       //计算最大值
       vm.stepsLists.forEach((item, i) => {

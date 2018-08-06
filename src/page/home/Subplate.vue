@@ -9,7 +9,7 @@
           <div class="oprat">
             <button @click="initBoard(false)">生成副板</button>
           </div>
-          <div class="list-all">
+          <div class="list-all" v-if="openVice">
             <div class="list" v-for="(item,i) in panel">
               <span class="titles" :class="{'choose': chooseNum === i+1}" @click="viewBoard(item.value,i+1)">{{i+1}}</span>
               <input :class="{'chooseer': chooseNum === i+1}" v-model="item.value" @keyup.enter="initBoard" maxlength="10"/>
@@ -60,6 +60,7 @@ export default {
       defaultNum: defaultNum,
       panel: [], //左侧副板填入框
       chooseNum: 1, //选择的左侧副板数字
+      openVice: false,
       vicePanel: [{ name: "", numbers: [] }, { name: "", numbers: [] }] //右侧副板
     };
   },
@@ -83,14 +84,17 @@ export default {
         };
       }
       let i = 0,
+        response = await getData.boardListAll(vm.now),
         rep;
-      rep = await getData.boardListAll(); //获取左边的值
+      rep = response.data; //获取左边的值
 
       for (; i < rep.data.length; i++) {
         vm.panel[i] = {
-          value: rep.data[i]
+          value: rep.data[i].value
         };
       }
+
+      vm.openVice = true;
       if (vm.panel[0].value) {
         vm.viewBoard(vm.panel[0].value);
       }

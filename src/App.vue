@@ -21,6 +21,9 @@ export default {
     init() {
       userFactory.isLogin();
     }
+  },
+  watch: {
+    $route: "init"
   }
 };
 </script>

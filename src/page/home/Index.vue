@@ -153,7 +153,7 @@ export default {
       //增加每期中奖号码
       const vm = this,
         numbers = vm.secDate.numbers;
-      if (vm.secDate.numbers.length != 5) {
+      if (vm.secDate.numbers.length != 5 || !/^\d+$/.test(vm.secDate.numbers)) {
         return;
       }
       vm.secDate.numbers = "";
@@ -164,8 +164,15 @@ export default {
     },
     async editAward() {
       //修改每期中奖号码
-      const vm = this,
-        rep = await getData.editAward(vm.editParam);
+      const vm = this;
+      let rep;
+      if (
+        vm.editParam.numbers.length != 5 ||
+        !/^\d+$/.test(vm.editParam.numbers + vm.editParam.periodId)
+      ) {
+        return;
+      }
+      rep = await getData.editAward(vm.editParam);
       vm.getPeriodList();
     },
     async computePrice() {

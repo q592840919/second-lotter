@@ -35,15 +35,12 @@ export default {
         return axios.delete(`/board/${num}`);
     },
     //返回所有生成副板数字
-    boardListAll() {
-        return axios.get(`/board/list`);
+    boardListAll(dayId) {
+        return axios.get(`/board/list/${dayId}`);
     },
     //生成副板
     viewBoard(dayId) {
         return axios.get(`/board/${dayId}`);
-    },
-    checkStepList(dayId) {
-        return axios.get(`/board/list/${dayId}`);
     },
     checkLogin() {
         return axios.get(`/login/status`);
