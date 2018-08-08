@@ -6,13 +6,14 @@
             {{item.name}}
         </a>
       </li>
+    <button class="logout" @click="logout">登出</button>
     </ul>
   </div>
 </template>
 
 <script>
 import { nav, chooseNav } from '@/config/navConfig';
-
+import getData from "@/service/getData";
 export default {
   name: 'menus',
   data() {
@@ -45,6 +46,13 @@ export default {
     init () {
       const vm = this;
       vm.colorNav();
+    },
+    async logout () {
+      const vm = this,
+      rep = await getData.logout();
+      if(rep.data === 1){
+        vm.$router.push("/index.html#/login");
+      }
     }
   }
 };
@@ -57,6 +65,10 @@ export default {
     .menu-list{
       width: 1000px;
       margin: auto;
+      .logout{
+        float: right;
+        margin-top: 10px;
+      }
       li{
         display: inline-block;
         margin-right: 30px;
