@@ -95,7 +95,7 @@ export default {
       vm.stepsLists.forEach((item, i) => {
         item.maxValue = Math.max.apply(
           null,
-          item.steps[0].concat(item.steps[0])
+          item.steps[0].concat(item.steps[1])
         );
         if (19 < item.maxValue) {
           item.color = "red";
