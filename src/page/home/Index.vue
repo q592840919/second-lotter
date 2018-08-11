@@ -156,9 +156,9 @@ export default {
       if (vm.secDate.numbers.length != 5 || !/^\d+$/.test(vm.secDate.numbers)) {
         return;
       }
+      vm.lastAward = vm.secDate.numbers;
       vm.secDate.numbers = "";
       let rep = await getData.addAward(vm.now, `numbers=${numbers}`);
-      vm.lastAward = vm.secDate.numbers;
       vm.showNum = vm.showNum + 1;
       vm.getPeriodList();
     },
