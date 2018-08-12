@@ -24,10 +24,10 @@
             <span  class="import" :class="{'special': steps1[i][n] ===1 || !(steps1[i][n]===0&&i<showSteps)}" v-if="i<showSteps&&steps1[i][n]!==0">{{steps1[i][n]}}</span>
             <span class="show-line" v-if="(i < showSteps)&&(steps1[i][n]!==0)"
               :class="{
-                'blue': (i<115)&&steps1[i + (5 - steps1[i][n])][n] >= 5,
-                'yellow': (i<107)&&steps1[i + (13 - steps1[i][n])][n] >= 13,
-                'origin': (i<104)&&steps1[i + (16 - steps1[i][n])][n] >= 16,
-                'red': (i<100)&&(steps1[i + (20 - steps1[i][n])][n] >= 20)
+                'blue': ((i<115)&&steps1[i + (5 - steps1[i][n])][n] >= 5)|| (steps1[i][n]>=5),
+                'yellow': ((i<107)&&steps1[i + (13 - steps1[i][n])][n] >= 13)|| (steps1[i][n]>=13),
+                'origin': ((i<104)&&steps1[i + (16 - steps1[i][n])][n] >= 16)|| (steps1[i][n]>=16),
+                'red': ((i<100)&&(steps1[i + (20 - steps1[i][n])][n] >= 20))|| (steps1[i][n]>=20)
               }"
             ></span>
           </td>
@@ -43,10 +43,10 @@
             <span class="import" :class="{'special': steps0[i][n] ===1 || !(steps0[i][n]===0&&i<showSteps)}"  v-if="i<showSteps&&steps0[i][n]!==0">{{steps0[i][n]}}</span>
             <span class="show-line" v-if="(i < showSteps)&&(steps0[i][n]!==0)"
               :class="{
-                'blue': (i<115)&&(steps0[i + (5 - steps0[i][n])][n] >= 5),
-                'yellow': (i<107)&&(steps0[i + (13 - steps0[i][n])][n] >= 13),
-                'origin': (i<104)&&(steps0[i + (16 - steps0[i][n])][n] >= 16),
-                'red': (i<100)&&(steps0[i + (20 - steps0[i][n])][n] >= 20)
+                'blue': (i<115)&&(steps0[i + (5 - steps0[i][n])][n] >= 5)|| (steps0[i][n]>=5),
+                'yellow': (i<107)&&(steps0[i + (13 - steps0[i][n])][n] >= 13)|| (steps0[i][n]>=13),
+                'origin': (i<104)&&(steps0[i + (16 - steps0[i][n])][n] >= 16)|| (steps0[i][n]>=16),
+                'red': ((i<100)&&(steps0[i + (20 - steps0[i][n])][n] >= 20))|| (steps0[i][n]>=20)
               }"
             ></span>
             <!--((steps0[i][n]!==0)&&(steps0[i + (5 - steps0[i][n])][n] === 5))
