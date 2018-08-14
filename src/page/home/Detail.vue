@@ -85,6 +85,9 @@ export default {
         }
       });
       vm.showSteps = vm.showSteps + 2;
+      vm._numLineColor(0);
+      vm._numLineColor(1);
+      console.log(vm.content);
       vm.openStep = true;
     },
     async checkStepList() {
@@ -105,6 +108,43 @@ export default {
           item.color = "#56ff00";
         }
       });
+    },
+    _numLineColor(index) {
+      let vm = this,
+        obj = vm.content[index],
+        i = obj.steps.length - 1,
+        n = 0;
+      obj.color = JSON.parse(JSON.stringify(obj.steps));
+      for (; n < 10; ++n) {
+        for (; 0 <= i; i--) {
+          obj.color[i][n] = "";
+          if (5 <= obj.steps[i][n]) {
+            vm._writeLine(obj, i, n);
+            i = i - obj.steps[i][n] + 1;
+          }
+        }
+        i = obj.steps.length - 1;
+      }
+    },
+    _writeLine(obj, i, n) {
+      let color,
+        num = obj.steps[i][n],
+        z = 0;
+      //是啥颜色
+      if (num >= 20) {
+        color = "red";
+      } else if (num >= 16) {
+        color = "origin";
+      } else if (num >= 13) {
+        color = "yellow";
+      } else {
+        color = "blue";
+      }
+      //赋值颜色
+      for (; z < num; z++) {
+        obj.color[i][n] = color;
+        i--;
+      }
     }
   }
 };
