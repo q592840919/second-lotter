@@ -4,15 +4,16 @@
       <div class="num-award">
         <span>中奖号码：</span>
         <input v-model="secDate.numbers" maxlength="5" @keyup.enter="addAward"/>
-        <!-- <button  class="buttons" @click="addAward" >添加</button> -->
-
-        <div class="award-time">
-          上一期中奖号码:<span class="lotte-title" v-for="item in lastAward">{{item}}</span>
-        </div>
         <div class="edit-num">
           <input placeholder="期数" maxlength="3"  @keyup.enter="editAward" v-model="editParam.periodId" class="dates"/>
           <input placeholder="中奖号码" maxlength="5"  @keyup.enter="editAward" v-model="editParam.numbers"  class="nums"/>
           <button @click="editAward">修改中奖号码</button>
+        </div>
+        <!-- <button  class="buttons" @click="addAward" >添加</button> -->
+
+        <div class="award-time">
+          上一期中奖号码:<span class="lotte-title" v-for="item in lastAward">{{item}}</span>
+          <a :href="'/index.html#/detail/'+now" class="jump">副板详情</a>
         </div>
       </div>
       <div class="operation">
@@ -28,21 +29,20 @@
                 <th v-for="item in defaultNum">{{item}}</th>
               </tr>
               <tr class="value-mog">
-                <td>下注金额</td>
+                <td class="it-name">下注金额</td>
                 <td  v-for="item in money">{{item}}</td>
               </tr>
               <tr class="value-mog">
-                <td>下注金额/5</td>
-                <td  v-for="item in money"><span v-if="item">{{item/5 | subFour}}</span></td>
+                <td class="it-name">下注金额/5</td>
+                <td  v-for="item in money"><span v-if="item">{{item/5 | subTwo}}</span></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-      <a :href="'/index.html#/detail/'+now" class="jump">副板详情</a>
     <div class="main">
-      <Main-panel :showCount="true" :periods="periods" :now="getFormatDate(new Date(),1)"/>
+      <Main-panel class="top" :showCount="true" :periods="periods" :now="getFormatDate(new Date(),1)"/>
     </div>
   </div>
 </template>
@@ -77,9 +77,9 @@ export default {
     };
   },
   filters: {
-    subFour(value) {
+    subTwo(value) {
       if (value) {
-        return Number(value).toFixed(4);
+        return Number(value).toFixed(2);
       } else {
         return "";
       }
@@ -200,11 +200,16 @@ export default {
   }
   .time {
     font-size: 18px;
-    margin: 20px auto 0;
+    background: #fff;
+    box-shadow: 0 0 20px #ababab;
+    margin-left: 209px;
     display: table;
-    width: 1180px;
+    width: 841px;
     padding-bottom: 10px;
-    border-bottom: 1px dashed #ababab;
+    display: block;
+    padding: 0 20px;
+    position: fixed;
+    /* left: 100px; */
     > div {
     }
     .num-award {
@@ -246,7 +251,12 @@ export default {
     }
     .edit-num {
       padding-top: 10px;
-      border-top: 1px dashed #ababab;
+      border-left: 1px dashed #ababab;
+      display: inline-block;
+      padding-left: 20px;
+      .dates {
+        width: 80px;
+      }
     }
     .operation {
       padding-top: 10px;
@@ -255,6 +265,8 @@ export default {
       margin-top: 20px;
       .info {
         margin: 10px 0;
+        width: 840px;
+        overflow: auto;
         table {
           td {
             line-height: 35px;
@@ -262,6 +274,12 @@ export default {
           }
           th {
             padding: 0 15px;
+          }
+        }
+        .value-mog {
+          .it-name {
+            width: 98px;
+            display: block;
           }
         }
       }
@@ -277,9 +295,11 @@ export default {
   .jump {
     margin: 10px 0 10px 60px;
     color: #009ddc;
-    display: block;
   }
   .main {
+    .top {
+      padding-top: 375px;
+    }
   }
 }
 </style>

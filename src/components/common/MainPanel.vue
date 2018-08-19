@@ -19,7 +19,7 @@
         </tr>
       </tbody>
     </table>
-    <table class="vice"  cellpadding="0" cellspacing="0">
+    <!-- <table class="vice"  cellpadding="0" cellspacing="0">
       <tbody>
         <tr>
           <th v-for="item in defaultNum">{{item}}</th>
@@ -35,7 +35,7 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
   </div>
 </template>
 
@@ -72,7 +72,7 @@ export default {
     vertical-align: top;
     th {
       background-color: #fff6c2;
-      padding: 0 12px;
+      padding: 0 25px;
       &:nth-child(6) {
         border-right: 6px solid #f6ab19;
       }
