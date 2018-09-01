@@ -1,2 +1,2 @@
-scp ./dist.zip root@120.26.211.107:/root/
-ssh root@120.26.211.107 "sh /root/up.sh"
+scp ./dist.zip root@47.99.97.162:/root/
+ssh root@47.99.97.162 "sh /root/up.sh"
