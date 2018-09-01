@@ -99,6 +99,7 @@ export default {
         new Date(),
         1
       );
+      console.log("dev"+vm.now);
       vm.money = new Array(10);
       vm.getPeriodList();
     },
