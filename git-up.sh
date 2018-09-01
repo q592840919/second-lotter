@@ -5,5 +5,5 @@ echo $v_time
 git status
 git add -A
 git commit -m "$v_time"
-git push origin master
+git push origin dev
 #successful!one
