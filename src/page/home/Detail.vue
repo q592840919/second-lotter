@@ -107,7 +107,7 @@ export default {
         } else if (12 < item.maxValue) {
           item.color = "#56ff00";
         } else if(9 < item.maxValue){
-          item.color = "blue";
+          item.color = "#009ddc";
         }
       });
     },
