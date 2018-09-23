@@ -106,7 +106,7 @@ export default {
           item.color = "#ffe600";
         } else if (12 < item.maxValue) {
           item.color = "#56ff00";
-        } else if(9 < item.maxValue){
+        } else if (9 < item.maxValue) {
           item.color = "#009ddc";
         }
       });
@@ -139,8 +139,10 @@ export default {
         color = "origin";
       } else if (num >= 13) {
         color = "yellow";
-      } else {
+      } else if (num >= 9) {
         color = "blue";
+      } else {
+        color = "green";
       }
       //赋值颜色
       for (; z < num; z++) {

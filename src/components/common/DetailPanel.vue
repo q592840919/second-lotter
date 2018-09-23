@@ -160,6 +160,9 @@ export default {
             top: 0;
             left: 22px;
           }
+          .green{
+            border-left: 2px solid #ef00ff;
+          }
           .blue {
             border-left: 2px solid blue;
           }
