@@ -161,7 +161,8 @@ export default {
             left: 22px;
           }
           .green{
-            border-left: 2px solid #ef00ff;
+            border-left: 2px solid #ea03fb;
+            opacity: 0.5;
           }
           .blue {
             border-left: 2px solid blue;
